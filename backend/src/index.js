@@ -6,6 +6,7 @@ import connet from "./config/connetDB.js";
 import initWebRoutes from "./routes/index.js";
 dotenv.config();
 
+let use = "a";
 let app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
