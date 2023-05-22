@@ -1,0 +1,15 @@
+export { default as Nav } from "~/components/nav";
+export { default as NavB } from "~/components/navBusiness";
+export { default as Footer } from "~/components/footer";
+export { default as Input } from "~/components/input";
+export { default as Button } from "~/components/button";
+export { default as DCBusiness } from "~/components/homeBusiness";
+export { default as DCJob } from "~/components/homeJob";
+export { default as DCJJob } from "~/components/jobC";
+export { default as DCJJobRelate } from "~/components/jobRelateC";
+export { default as DCBBusiness } from "~/components/businessC";
+export { default as DCBBusinessJob } from "~/components/businessJobC";
+export { default as DCBusinessReview } from "~/components/businessReview";
+export { default as Star } from "~/components/star";
+export { default as JobB } from "~/components/jobB";
+export { default as CandidateB } from "~/components/candidateB";
