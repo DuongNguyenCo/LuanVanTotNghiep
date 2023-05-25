@@ -4,11 +4,13 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connet from "./config/connetDB.js";
 import initWebRoutes from "./routes/index.js";
+import upload from "express-fileupload";
 dotenv.config();
 
 let use = "a";
 let app = express();
 
+app.use(upload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());

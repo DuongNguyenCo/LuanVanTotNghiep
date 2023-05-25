@@ -5,8 +5,6 @@ export const postSlice = createSlice({
     initialState: {
         posts: [],
         postHots: [],
-        postRelate: [],
-        postChoose: {},
         postChooseBusiness: {},
     },
     reducers: {
@@ -16,17 +14,12 @@ export const postSlice = createSlice({
         getPostHot: (state, action) => {
             state.postHots = action.payload;
         },
-        getPostRelate: (state, action) => {
-            state.postRelate = action.payload;
-        },
-        postChoose: (state, action) => {
-            state.postChoose = action.payload;
-        },
+
         postChooseBusiness: (state, action) => {
             state.postChooseBusiness = action.payload;
         },
     },
 });
 
-export const { getPost, getPostRelate, getPostHot, postChoose, postChooseBusiness } = postSlice.actions;
+export const { getPost, getPostHot, postChooseBusiness } = postSlice.actions;
 export default postSlice.reducer;

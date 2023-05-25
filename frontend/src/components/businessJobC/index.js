@@ -1,9 +1,12 @@
+import { Link } from "react-router-dom";
+
 function BusinessJob(prop) {
     const { nameP, salary_min, salary_max, language, address, timePost, url } = prop;
     const date = new Date(timePost);
 
     return (
-        <div
+        <Link
+            to={`/chi-tiet-cong-viec/${nameP}`}
             className="border-t border-t-text1 py-7 flex cursor-pointer
             mobile:flex-col mobile:py-3"
         >
@@ -54,7 +57,7 @@ function BusinessJob(prop) {
                 </div>
                 <div className="text-sm text-text1">{date.toLocaleDateString()}</div>
             </div>
-        </div>
+        </Link>
     );
 }
 

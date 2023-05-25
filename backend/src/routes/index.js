@@ -8,6 +8,7 @@ import address from "../controllers/address";
 import job from "../controllers/job";
 import email from "../controllers/email_tamplate";
 import service from "../controllers/service";
+import cv from "../controllers/cv";
 let router = express.Router();
 
 let initWebRoutes = (app) => {
@@ -52,6 +53,9 @@ let initWebRoutes = (app) => {
 
     //service
     router.get("/api/v2/service/getByIdBusiness/:id", service.getAllByBusiness);
+
+    //cv
+    router.post("/api/v2/cv/apply", cv.apply);
 
     return app.use("/", router);
 };

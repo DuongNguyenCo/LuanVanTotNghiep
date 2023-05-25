@@ -49,9 +49,9 @@ let getById = (id) => {
                                 attributes: ["id", "street", "ward", "district", "city"],
                             },
                         ],
+                        where: { name: id },
                     },
                 ],
-                where: { id: id },
             });
             resolve({
                 status: 0,

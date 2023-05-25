@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 function Job(prop) {
     const { url, nameB, nameP, address, salary_min, salary_max, language, time } = prop;
     const [tim, setTim] = useState(true);
@@ -12,7 +13,7 @@ function Job(prop) {
     const b = c.getTime() - a.getTime();
 
     return (
-        <div className="rounded-md border border-text1 p-2 cursor-pointer">
+        <Link to={`/chi-tiet-cong-viec/${nameP}`} className="rounded-md border border-text1 p-2 cursor-pointer">
             <div className="flex w-full mb-2">
                 <div className="w-2/12 h-[80px] flex justify-center items-center mr-3">
                     <img src={url} alt="123" className="min-w-[50px] max-h-[50px]" />
@@ -66,7 +67,7 @@ function Job(prop) {
                     ? `Đã đăng ${Math.floor(b / 3600000)} giờ trước`
                     : `Đã đăng ${Math.floor(b / 60000)} phút trước`}
             </div>
-        </div>
+        </Link>
     );
 }
 

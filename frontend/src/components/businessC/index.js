@@ -1,17 +1,17 @@
-import logo from "~/assets/samsung.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../button";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
 import { useState } from "react";
 import Star from "../star";
+import { Link } from "react-router-dom";
 
 function Busiess(prop) {
     const { nameB, url, description, post } = prop;
     const [tim, setTim] = useState(true);
 
     return (
-        <div className="w-auto rounded-md border border-text1 p-2">
+        <Link to={`/chi-tiet-doanh-nghiep/${nameB}`} className="w-auto rounded-md border border-text1 p-2">
             <div className="flex">
                 <div className="flex-1 ml-3 text-xl font-bold">{nameB}</div>
                 <div className="w-8">
@@ -19,10 +19,7 @@ function Busiess(prop) {
                         label={
                             <FontAwesomeIcon
                                 icon={tim ? fullHeart : solidHeart}
-                                className={
-                                    (tim ? "text-text1" : "text-red") +
-                                    " w-full h-full hover:text-red"
-                                }
+                                className={(tim ? "text-text1" : "text-red") + " w-full h-full hover:text-red"}
                             />
                         }
                         className=" bg-w border border-text1 p-0.5 flex"
@@ -53,7 +50,7 @@ function Busiess(prop) {
                     <div className="flex justify-end">{post} công việc</div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

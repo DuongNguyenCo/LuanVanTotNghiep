@@ -2,11 +2,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { Button, DCBBusinessJob, DCBusinessReview, Star } from "~/components";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getAPIBusinessID } from "~/redux/apiRequests";
 
 function DetailBusiness() {
-    const data = useSelector((state) => state.business.businessChoose);
+    const { nameBusiness } = useParams();
+    // const data = useSelector((state) => state.business.businessChoose);
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        getAPIBusinessID(nameBusiness, setData);
+    }, [nameBusiness]);
     return (
         <div className="bg-second">
             <div className="max-w-business mx-auto ">
@@ -18,13 +25,13 @@ function DetailBusiness() {
                         className="h-40 w-40 flex justify-center items-center border p-2 mx-4 my-3 
                         mobile:m-0"
                     >
-                        <img src={data.data?.img} alt="123" />
+                        <img src={data?.img} alt="123" />
                     </div>
                     <div
                         className="flex-1 mb-2 pb-2
                         mobile:w-full mobile:text-center"
                     >
-                        <div className="my-5 text-2xl mobile:my-2">{data.data?.name}</div>
+                        <div className="my-5 text-2xl mobile:my-2">{data?.name}</div>
                         <div
                             className="grid grid-cols-3 gap-1
                             mobile:grid-cols-2"
@@ -74,11 +81,11 @@ function DetailBusiness() {
                                 <p className="my-2 text-2xl">Doanh Nghiệp tuyển dụng</p>
                             </div>
                             <div className="px-5 py-3">
-                                {data.data?.posts.map((e) => {
+                                {data?.posts.map((e) => {
                                     return (
                                         <DCBBusinessJob
                                             key={e.id}
-                                            url={data.data?.img}
+                                            url={data?.img}
                                             nameP={e.job.name}
                                             salary_min={e.job.salary_max}
                                             salary_max={e.job.salary_min}
@@ -94,7 +101,7 @@ function DetailBusiness() {
                             <div className="px-5 py-3">
                                 <p className="my-2 text-2xl">Giới thiệu công ty</p>
                             </div>
-                            <div className="px-5 pb-3 text-justify">{data.data?.description}</div>
+                            <div className="px-5 pb-3 text-justify">{data?.description}</div>
                         </div>
                     </div>
                     <div>

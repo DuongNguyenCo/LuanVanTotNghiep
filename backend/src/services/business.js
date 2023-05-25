@@ -47,7 +47,7 @@ const getById = (id) => {
                     },
                     { model: db.candidate, attributes: ["id"] },
                 ],
-                where: { id: id },
+                where: { name: id },
             });
             resolve({ status: 0, mess: "Find All Successfully", data });
         } catch (e) {

@@ -4,9 +4,9 @@ export const path = {
     CSIGNUP: "/dang-ky",
     CJOB: "/danh-sach-cong-viec",
     CBUSINESS: "/danh-sach-doanh-nghiep",
-    CDETAILJOB: "/chi-tiet-cong-viec",
-    CDETAILBUSINESS: "/chi-tiet-doanh-nghiep",
-    CAPPLY: "/ung-tuyen",
+    CDETAILJOB: "/chi-tiet-cong-viec/:nameJob",
+    CDETAILBUSINESS: "/chi-tiet-doanh-nghiep/:nameBusiness",
+    CAPPLY: "/ung-tuyen/:nameJobApply",
 
     BSIGNIN: "/doanh-nghiep/dang-nhap",
     BSIGNUP: "/doanh-nghiep/dang-ky",

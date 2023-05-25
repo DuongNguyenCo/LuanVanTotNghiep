@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class post extends Model {
         static associate(models) {
-            post.belongsToMany(models.cv, {
+            post.belongsToMany(models.candidate, {
                 through: models.cv_post,
                 foreignKey: "id_post",
             });

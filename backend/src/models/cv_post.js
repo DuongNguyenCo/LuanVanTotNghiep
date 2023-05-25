@@ -10,11 +10,16 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
                 references: { model: "post", key: "id" },
             },
-            id_cv: {
+            id_candidate: {
                 type: DataTypes.INTEGER,
+                references: { model: "candidate", key: "id" },
+            },
+            id_cv: {
+                type: DataTypes.STRING,
                 references: { model: "cv", key: "id" },
             },
             status: DataTypes.INTEGER,
+            description: DataTypes.TEXT,
         },
         {
             sequelize,

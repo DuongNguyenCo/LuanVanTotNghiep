@@ -1,30 +1,21 @@
 import { useEffect, useState } from "react";
 import { Button, DCBusiness, DCJob, Input } from "~/components";
-import { getAPIPostHot, getAPIBusiness, getAPIBusinessID, getAPIJobID } from "~/redux/apiRequests";
+import { getAPIPostHot, getAPIBusiness } from "~/redux/apiRequests";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid } from "swiper";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 function Home() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const dataB = useSelector((state) => state.business.businesses);
     const dataP = useSelector((state) => state.post.postHots);
 
     const [a, setA] = useState(0);
     const handleOnClick = () => {
         console.log(a);
-    };
-
-    const handleChooseBusiness = (id) => {
-        getAPIBusinessID(id, dispatch, navigate);
-    };
-    const handleChooseJob = (id, language) => {
-        getAPIJobID(id, language, dispatch, navigate);
     };
 
     useEffect(() => {
@@ -56,7 +47,7 @@ function Home() {
                             tablet:w-auto
                             mobile:w-auto "
                 >
-                    <div className="flex gap-2 items-end w-full">
+                    <div className="flex gap-2 items-end w-full mb-2">
                         <p className="flex-1 text-2xl font-bold">Các doanh nghiệp hàng đầu</p>
                         <div className="">
                             <p className="italic uppercase decora text-link cursor-pointer">Xem tất cả</p>
@@ -72,12 +63,12 @@ function Home() {
                             },
                             700: {
                                 slidesPerView: 3,
-                                spaceBetween: 5,
+                                spaceBetween: 15,
                                 slidesPerGroup: 3,
                             },
                             1200: {
                                 slidesPerView: 5,
-                                spaceBetween: 5,
+                                spaceBetween: 15,
                                 slidesPerGroup: 5,
                             },
                         }}
@@ -85,14 +76,7 @@ function Home() {
                         {dataB.map((e) => {
                             return (
                                 <SwiperSlide key={e.id}>
-                                    <DCBusiness
-                                        name={e.name}
-                                        city={e.addresses[0].city}
-                                        count={e.posts.length}
-                                        url={e.img}
-                                        id={e.id}
-                                        onClick={handleChooseBusiness}
-                                    />
+                                    <DCBusiness name={e.name} city={e.addresses[0].city} count={e.posts.length} url={e.img} id={e.id} />
                                 </SwiperSlide>
                             );
                         })}
@@ -103,7 +87,7 @@ function Home() {
                             tablet:w-auto
                             mobile:w-auto "
                 >
-                    <div className="flex gap-2 items-end w-full">
+                    <div className="flex gap-2 items-end w-full mb-2">
                         <p className="flex-1 text-2xl font-bold">Công việc nóng</p>
                         <div className="">
                             <p className="italic uppercase decora text-link cursor-pointer">Xem tất cả</p>
@@ -135,14 +119,7 @@ function Home() {
                         {dataP.map((e) => {
                             return (
                                 <SwiperSlide key={e.id}>
-                                    <DCJob
-                                        id={e.id}
-                                        nameB={e.business.name}
-                                        url={e.business.img}
-                                        nameP={e.job.name}
-                                        languages={e.job.languages}
-                                        onClick={handleChooseJob}
-                                    />
+                                    <DCJob id={e.id} nameB={e.business.name} url={e.business.img} nameP={e.job.name} languages={e.job.languages} />
                                 </SwiperSlide>
                             );
                         })}

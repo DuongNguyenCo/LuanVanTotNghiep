@@ -1,6 +1,6 @@
 import axios from "~/axios/customAxios";
-import { getPostHot, postChoose, getPostRelate, postChooseBusiness } from "./postSlice";
-import { businessChoose, getBusiness, LoginBusiness } from "./businessSlice";
+import { getPostHot, postChooseBusiness } from "./postSlice";
+import { getBusiness, LoginBusiness } from "./businessSlice";
 import { path } from "~/routes/path";
 
 export const signInBusiness = async (data, dispatch, navigate) => {
@@ -43,35 +43,51 @@ export const getAPIBusiness = async (dispatch) => {
     }
 };
 
-export const getAPIBusinessID = async (id, dispatch, navigate) => {
+export const getAPIBusinessID = async (name, setData) => {
     try {
         const data = await axios({
             method: "GET",
-            url: `/api/v2/business/getById/${id}`,
+            url: `/api/v2/business/getById/${name}`,
         });
         if (data.status === 0) {
-            dispatch(businessChoose(data));
-            navigate(path.CDETAILBUSINESS);
+            setData(data.data);
         }
     } catch (e) {
         return e;
     }
 };
 
-export const getAPIJobID = async (id, language, dispatch, navigate) => {
+export const getAPIJobID = async (name, setPost, setPostRelate) => {
     try {
         const data = await axios({
             method: "GET",
-            url: `/api/v2/post/getById/${id}`,
+            url: `/api/v2/post/getById/${name}`,
         });
-        const dataBRelate = await axios({
+        const language = data.data.job.languages.map((e) => {
+            return e.id;
+        });
+        const dataRelate = await axios({
             method: "GET",
             url: `/api/v2/post/getRelate?relate=${language}`,
         });
-        if (data.status === 0 && dataBRelate.status === 0) {
-            dispatch(postChoose(data.data));
-            dispatch(getPostRelate(dataBRelate.data));
-            navigate(path.CDETAILJOB);
+        if (data.status === 0 && dataRelate.status === 0) {
+            setPost(data.data);
+            setPostRelate(dataRelate.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getAPIJobIdApply = async (name, setPost) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/post/getById/${name}`,
+        });
+
+        if (data.status === 0) {
+            setPost(data.data);
         }
     } catch (e) {
         return e;
@@ -261,6 +277,21 @@ export const submitStepThree = async (service, id_post, navigate) => {
         });
         if (data.status === 0) {
             navigate(path.BJOB);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const applyPost = async (apply) => {
+    try {
+        const data = await axios({
+            method: "POST",
+            url: "/api/v2/cv/apply",
+            data: apply,
+        });
+        console.log(data);
+        if (data.status === 0) {
         }
     } catch (e) {
         return e;
