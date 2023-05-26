@@ -56,7 +56,7 @@ function Job() {
                             emailApply={e.business.email}
                             service={e.services}
                             expire={e.expire}
-                            cv={e.cvs}
+                            cv={e.apply}
                         />
                     );
                 })}

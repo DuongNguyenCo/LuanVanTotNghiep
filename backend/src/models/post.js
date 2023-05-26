@@ -7,10 +7,12 @@ module.exports = (sequelize, DataTypes) => {
             post.belongsToMany(models.candidate, {
                 through: models.cv_post,
                 foreignKey: "id_post",
+                as: "apply",
             });
             post.belongsToMany(models.candidate, {
                 through: models.candidate_post,
                 foreignKey: "id_post",
+                as: "favorites",
             });
             post.belongsToMany(models.service, {
                 through: models.post_service,

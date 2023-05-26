@@ -47,6 +47,7 @@ let initWebRoutes = (app) => {
 
     //address
     router.get("/api/v2/address/gettall/:id", address.getAll);
+    router.post("/api/v2/address/create", address.newAddress);
 
     //email_tamplates
     router.get("/api/v2/email/getByIdBusiness/:id", email.getEmailByBusiness);

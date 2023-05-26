@@ -128,7 +128,7 @@ const getAllByIdBusiness = (id) => {
                         ],
                     },
                     { model: db.service, attributes: ["id", "name"] },
-                    { model: db.cv, attributes: ["id"] },
+                    { model: db.candidate, attributes: ["id"], as: "apply" },
                 ],
             });
             resolve({
@@ -145,13 +145,14 @@ const getAllByIdBusiness = (id) => {
 const getAllByIdPost = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await db.post.findAll({
+            const data = await db.post.findOne({
                 attributes: ["id"],
                 include: [
                     {
-                        model: db.cv,
-                        attributes: ["id", "file"],
-                        include: [{ model: db.candidate, attributes: ["id", "first_name", "last_name"] }],
+                        model: db.candidate,
+                        attributes: ["id", "first_name", "last_name"],
+                        include: [{ model: db.cv, attributes: ["id", "file"] }],
+                        as: "apply",
                     },
                 ],
                 where: { id: id },

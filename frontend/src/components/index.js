@@ -13,3 +13,4 @@ export { default as DCBusinessReview } from "~/components/businessReview";
 export { default as Star } from "~/components/star";
 export { default as JobB } from "~/components/jobB";
 export { default as CandidateB } from "~/components/candidateB";
+export { default as Modal } from "~/components/modal";

@@ -16,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
             },
             id_cv: {
                 type: DataTypes.STRING,
-                references: { model: "cv", key: "id" },
             },
             status: DataTypes.INTEGER,
             description: DataTypes.TEXT,

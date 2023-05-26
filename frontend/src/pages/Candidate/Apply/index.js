@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "~/components";
 import { applyPost, getAPIJobIdApply } from "~/redux/apiRequests";
 
 function Apply() {
     const { nameJobApply } = useParams();
+    const navigate = useNavigate();
     const [data, setData] = useState();
     const [apply, setApply] = useState({ file: null, description: "" });
 
-    const handleApply = () => {
+    const handleApply = async () => {
         const fd = new FormData();
         fd.append("file", apply.file);
         fd.append("description", apply.description);
         fd.append("id_post", data.id);
         fd.append("id_candidate", 1);
-        applyPost(fd);
+        await applyPost(fd);
+        navigate(`/chi-tiet-cong-viec/${nameJobApply}`);
     };
 
     useEffect(() => {

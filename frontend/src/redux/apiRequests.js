@@ -1,4 +1,5 @@
 import axios from "~/axios/customAxios";
+import axiosDefault from "axios";
 import { getPostHot, postChooseBusiness } from "./postSlice";
 import { getBusiness, LoginBusiness } from "./businessSlice";
 import { path } from "~/routes/path";
@@ -195,8 +196,9 @@ export const getAPICandidateByPost = async (id_post, setCandidate) => {
             method: "GET",
             url: `/api/v2/post/getAllCandidateByIdPost/${id_post}`,
         });
+        console.log("data: ", data);
         if (data.status === 0) {
-            setCandidate(data.data[0].cvs);
+            setCandidate(data.data);
         }
     } catch (e) {
         return e;
@@ -293,6 +295,55 @@ export const applyPost = async (apply) => {
         console.log(data);
         if (data.status === 0) {
         }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getCity = async (setCity) => {
+    try {
+        const res = await axiosDefault.get("https://provinces.open-api.vn/api/p/");
+        setCity(
+            res.data.map((e) => {
+                return { value: e.code, label: e.name };
+            })
+        );
+    } catch (e) {
+        return e;
+    }
+};
+export const getDistrict = async (idCity, setDistrict) => {
+    try {
+        const res = await axiosDefault.get(`https://provinces.open-api.vn/api/p/${idCity}?depth=2`);
+        setDistrict(
+            res.data.districts.map((e) => {
+                return { value: e.code, label: e.name };
+            })
+        );
+    } catch (e) {
+        return e;
+    }
+};
+export const getWard = async (idDistrict, setWard) => {
+    try {
+        const res = await axiosDefault.get(`https://provinces.open-api.vn/api/d/${idDistrict}?depth=2`);
+        setWard(
+            res.data.wards.map((e) => {
+                return { value: e.code, label: e.name };
+            })
+        );
+    } catch (e) {
+        return e;
+    }
+};
+
+export const addNewAddress = async (address, id_business) => {
+    try {
+        await axios({
+            method: "POST",
+            url: "/api/v2/address/create",
+            data: { address, id_business },
+        });
     } catch (e) {
         return e;
     }

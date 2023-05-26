@@ -7,7 +7,7 @@ import { getAPICandidateAllPost, getAPICandidateByPost } from "~/redux/apiReques
 
 function Candidate() {
     //system
-    const [candidate, setCandidate] = useState([]);
+    const [candidate, setCandidate] = useState();
     const [post, setPost] = useState([]);
     const [time, setTime] = useState();
     const [option, setOption] = useState({});
@@ -122,11 +122,12 @@ function Candidate() {
                         <div className="flex-1">Trạng thái</div>
                         <div className="flex-[0.5] text-center">Thao tác</div>
                     </div>
-                    {candidate?.map((e) => {
+                    {candidate?.apply.map((e) => {
+                        console.log("e: ", e);
                         return (
                             <CandidateB
                                 key={e.id}
-                                nameC={e.candidate.first_name + " " + e.candidate.last_name}
+                                nameC={e.first_name + " " + e.last_name}
                                 exp="moi ra truong"
                                 timeApply={e.cv_post.createdAt}
                                 status={e.cv_post.status}
