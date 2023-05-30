@@ -29,4 +29,23 @@ const updateService = async (req, res) => {
     res.status(200).json(await post.updateService(req.body));
 };
 
-module.exports = { getAll, getById, getRelate, getAllByIdBusiness, getAllByIdPost, getAllPostByID, updateStep, updateService };
+const getAllExpireByIdBusiness = async (req, res) => {
+    res.status(200).json(await post.getAllExpireByIdBusiness(req.params.id));
+};
+
+const getAllHiddenByIdBusiness = async (req, res) => {
+    res.status(200).json(await post.getAllHiddenByIdBusiness(req.params.id));
+};
+
+module.exports = {
+    getAll,
+    getById,
+    getRelate,
+    getAllByIdBusiness,
+    getAllByIdPost,
+    getAllPostByID,
+    updateStep,
+    updateService,
+    getAllExpireByIdBusiness,
+    getAllHiddenByIdBusiness,
+};

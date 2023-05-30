@@ -1,5 +1,6 @@
+import { Op } from "sequelize";
 import db from "../models/index";
-import { checkPassword, accessToken, refreshToken } from "./function";
+import { checkPassword, accessToken, refreshToken, hashPassword } from "./function";
 const getAll = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -7,11 +8,20 @@ const getAll = () => {
                 attributes: ["id", "name", "img", "description"],
                 include: [
                     { model: db.address, attributes: ["id", "city"] },
-                    { model: db.post, attributes: ["id"] },
                     { model: db.candidate, attributes: ["id"] },
                 ],
+                where: { img: { [Op.not]: null } },
             });
-            resolve({ status: 0, mess: "Find All Successfully", data });
+            const data1 = await Promise.all(
+                data.map(async (e) => {
+                    return await db.post.findAll({
+                        attributes: ["id", "status"],
+                        include: [{ model: db.business, attributes: ["id"], where: { id: e.id } }],
+                        where: { status: 1 },
+                    });
+                })
+            );
+            resolve({ status: 0, mess: "Find All Successfully", data: { data, data1 } });
         } catch (e) {
             reject(e);
         }
@@ -25,31 +35,38 @@ const getById = (id) => {
                 attributes: ["id", "name", "img", "description"],
                 include: [
                     { model: db.address, attributes: ["id", "city"] },
-                    {
-                        model: db.post,
-                        attributes: ["id", "createdAt"],
-                        include: [
-                            {
-                                model: db.job,
-                                attributes: ["name", "salary_min", "salary_max"],
-                                include: [
-                                    {
-                                        model: db.language,
-                                        attributes: ["id", "name"],
-                                    },
-                                    {
-                                        model: db.address,
-                                        attributes: ["id", "city"],
-                                    },
-                                ],
-                            },
-                        ],
-                    },
                     { model: db.candidate, attributes: ["id"] },
                 ],
                 where: { name: id },
             });
-            resolve({ status: 0, mess: "Find All Successfully", data });
+            const data1 = await db.post.findAll({
+                attributes: ["id", "createdAt", "status", "expire"],
+                include: [
+                    {
+                        model: db.job,
+                        attributes: ["name", "salary_min", "salary_max"],
+                        include: [
+                            {
+                                model: db.language,
+                                attributes: ["id", "name"],
+                            },
+                            {
+                                model: db.address,
+                                attributes: ["id", "city"],
+                            },
+                        ],
+                    },
+                    {
+                        model: db.business,
+                        attributes: ["id"],
+                        where: { id: data.dataValues.id },
+                    },
+                ],
+                where: { [Op.and]: { expire: { [Op.gte]: new Date() }, status: 1 } },
+            });
+
+            console.log("data1: ", data1);
+            resolve({ status: 0, mess: "Find All Successfully", data: { data, data1 } });
         } catch (e) {
             reject(e);
         }
@@ -93,4 +110,41 @@ const signIn = (business) => {
         }
     });
 };
-module.exports = { getAll, getById, signIn };
+
+const signUp = (business) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.business.findOrCreate({
+                where: { email: business.email, name: business.name },
+                defaults: { phone: business.phone, password: await hashPassword(business.password) },
+            });
+            if (data[1]) {
+                const a = business.street.split(" ");
+                const b = a.map((e) => {
+                    return e.replace(e.charAt(0), e.charAt(0).toUpperCase());
+                });
+                await db.address.create({
+                    id_business: data[0].dataValues.id,
+                    city: business.city,
+                    district: business.district,
+                    ward: business.ward,
+                    street: b.join(" "),
+                });
+                const { password, ...other } = data[0].dataValues;
+                const tokenAccess = accessToken({ id: data[0].dataValues.id, email: data[0].dataValues.email });
+                const tokenRefresh = refreshToken({ id: data[0].dataValues.id, email: data[0].dataValues.email });
+                resolve({
+                    isBusiness: 1,
+                    status: 0,
+                    mess: "Register Successfully",
+                    data: other,
+                    tokenAccess,
+                    tokenRefresh,
+                });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+module.exports = { getAll, getById, signIn, signUp };

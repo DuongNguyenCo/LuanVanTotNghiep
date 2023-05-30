@@ -4,7 +4,10 @@ import logo from "~/assets/logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { path } from "~/routes/path";
-function Nav() {
+function Nav(prop) {
+    const { candidate } = prop;
+    console.log("cadidate: ", candidate);
+
     const [bar, setBar] = useState("hidden");
     const handleBar = () => {
         bar === "hidden" ? setBar("block") : setBar("hidden");
@@ -32,13 +35,27 @@ function Nav() {
                             DOANH NGHIỆP
                         </Link>
                     </div>
-                    <div className="h-full mr-2 flex gap-5 leading-nav ">
+                    <div className="h-full mr-2 flex gap-2 leading-nav ">
                         <Link to={path.BHOME} target="_blank" className="text-text1">
                             DÀNH CHO NHÀ TUYỂN DỤNG
                         </Link>
-                        <Link to={path.CSIGNIN} className="text-text1">
-                            ĐĂNG NHẬP
-                        </Link>
+                        {candidate ? (
+                            <div className="px-4 text-center text-text1 relative group  cursor-pointer">
+                                <div className="flex items-center h-full">{candidate.first_name + " " + candidate.last_name}</div>
+                                <div className="absolute left-0 w-full text-left hidden group-hover:block">
+                                    <Link>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Thông tin</p>
+                                    </Link>
+                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Hoạt động</p>
+                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Quản lý CV</p>
+                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Đăng xuất</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <Link to={path.CSIGNIN} className="text-text1">
+                                ĐĂNG NHẬP
+                            </Link>
+                        )}
                     </div>
                 </div>
                 <div
@@ -59,14 +76,16 @@ function Nav() {
           mobile:flex-col mobile:text-center
           tablet:flex-col "
                 >
-                    <Link to={path.CJOB} className="text-text1 py-2 hover:bg-red-500">
+                    <Link to={path.CJOB} className="text-text1 py-2 ">
                         DANH SÁCH CÔNG VIỆC
                     </Link>
-                    <Link to={path.CBUSINESS} className="text-text1 py-2 hover:bg-red-500">
+                    <Link to={path.CBUSINESS} className="text-text1 py-2">
                         DOANH NGHIỆP
                     </Link>
-                    <p className="text-text1 py-2 hover:bg-red-500">DÀNH CHO NHÀ TUYỂN DỤNG</p>
-                    <p className="text-text1 py-2 hover:bg-red-500">ĐĂNG NHẬP</p>
+                    <Link to={path.BHOME} target="_blank" className="text-text1 py-2">
+                        DÀNH CHO NHÀ TUYỂN DỤNG
+                    </Link>
+                    <p className="text-text1 py-2">ĐĂNG NHẬP</p>
                 </div>
             </div>
         </nav>

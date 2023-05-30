@@ -2,8 +2,10 @@ import axios from "~/axios/customAxios";
 import axiosDefault from "axios";
 import { getPostHot, postChooseBusiness } from "./postSlice";
 import { getBusiness, LoginBusiness } from "./businessSlice";
+import { loginCandidate } from "./candidateSlice";
 import { path } from "~/routes/path";
 
+// /api/v2/business/signUp
 export const signInBusiness = async (data, dispatch, navigate) => {
     try {
         const business = await axios({
@@ -14,6 +16,36 @@ export const signInBusiness = async (data, dispatch, navigate) => {
         if (business.status === 0) {
             dispatch(LoginBusiness(business.data));
             navigate(path.BHOME);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+export const signUpBusiness = async (data, dispatch, navigate) => {
+    try {
+        const business = await axios({
+            method: "POST",
+            url: "/api/v2/business/signUp",
+            data: data,
+        });
+        if (business.status === 0) {
+            dispatch(LoginBusiness(business.data));
+            navigate(path.BHOME);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+export const signInCandidate = async (data, dispatch, navigate) => {
+    try {
+        const candidate = await axios({
+            method: "POST",
+            url: "/api/v2/candidate/signIn",
+            data: data,
+        });
+        if (candidate.status === 0) {
+            dispatch(loginCandidate(candidate.data));
+            navigate(path.CHOME);
         }
     } catch (e) {
         return e;
@@ -168,6 +200,33 @@ export const getAPIPostBusiness = async (id_business, setPost) => {
         return e;
     }
 };
+export const getAPIPostExpireBusiness = async (id_business, setPost) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/post/getAllExpire/${id_business}`,
+        });
+        if (data.status === 0) {
+            setPost(data.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+export const getAPIPostHiddenBusiness = async (id_business, setPost) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/post/getAllHidden/${id_business}`,
+        });
+        console.log("data: ", data);
+        if (data.status === 0) {
+            setPost(data.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
 
 export const getAPICandidateAllPost = async (id_business, setPost) => {
     try {
@@ -196,7 +255,6 @@ export const getAPICandidateByPost = async (id_post, setCandidate) => {
             method: "GET",
             url: `/api/v2/post/getAllCandidateByIdPost/${id_post}`,
         });
-        console.log("data: ", data);
         if (data.status === 0) {
             setCandidate(data.data);
         }
@@ -277,7 +335,11 @@ export const submitStepThree = async (service, id_post, navigate) => {
             url: "/api/v2/post/updateService",
             data: { service, id_post },
         });
+        console.log("data: ", data);
+
         if (data.status === 0) {
+            navigate(path.BJOB);
+        } else if (data.status === -1) {
             navigate(path.BJOB);
         }
     } catch (e) {
@@ -292,7 +354,6 @@ export const applyPost = async (apply) => {
             url: "/api/v2/cv/apply",
             data: apply,
         });
-        console.log(data);
         if (data.status === 0) {
         }
     } catch (e) {

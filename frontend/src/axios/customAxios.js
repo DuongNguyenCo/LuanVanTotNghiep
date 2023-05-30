@@ -28,24 +28,15 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     function (response) {
         if (response.data.status === 0 && response.data.isBusiness === 1) {
-            window.localStorage.setItem(
-                "refreshTokenBusiness",
-                response.data.tokenRefresh
-            );
-            window.localStorage.setItem(
-                "isBusiness",
-                JSON.stringify(response.data.data)
-            );
+            window.localStorage.setItem("refreshTokenBusiness", response.data.tokenRefresh);
+            window.localStorage.setItem("isBusiness", JSON.stringify(response.data.data));
             return response.data;
         }
         if (response.data.status === 0 && response.data.isBusiness === 0) {
-            window.localStorage.setItem(
-                "refreshTokenCandidate",
-                response.data.tokenRefresh
-            );
+            window.localStorage.setItem("isCandidate", JSON.stringify(response.data.data));
+            window.localStorage.setItem("refreshTokenCandidate", response.data.tokenRefresh);
             return response.data;
         }
-        // refresh token
         return response.data;
     },
     function (error) {

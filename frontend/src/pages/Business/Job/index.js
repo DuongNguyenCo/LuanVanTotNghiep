@@ -1,26 +1,48 @@
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Input, JobB } from "~/components";
-import { getAPIPostBusiness } from "~/redux/apiRequests";
+import { getAPIPostBusiness, getAPIPostExpireBusiness, getAPIPostHiddenBusiness } from "~/redux/apiRequests";
 
 function Job() {
     const [post, setPost] = useState([]);
+    const [step, setStep] = useState(1);
+    const idBusiness = useMemo(() => JSON.parse(localStorage.getItem("isBusiness"))?.id, []);
 
     useEffect(() => {
-        const idBusiness = JSON.parse(localStorage.getItem("isBusiness"))?.id;
-
         Promise.all([getAPIPostBusiness(idBusiness, setPost)]);
-    }, []);
+    }, [idBusiness]);
     return (
         <>
             <div className="max-w-main mx-auto pt-3 px-2 bg-w mb-2">
                 <div className="flex gap-10 py-1">
-                    <div className="text-base cursor-pointer font-bold border-b-2 border-w hover:border-text1">Đang hiển thị</div>
-                    <div className="text-base cursor-pointer font-bold border-b-2 border-w hover:border-text1">Đang ẩn</div>
-                    <div className="text-base cursor-pointer font-bold border-b-2 border-w hover:border-text1">Sắp hết hạn</div>
-                    <div className="text-base cursor-pointer font-bold border-b-2 border-w hover:border-text1">Đã hết hạn</div>
-                    <div className="text-base cursor-pointer font-bold border-b-2 border-w hover:border-text1">Nháp</div>
+                    <div
+                        className={`text-base cursor-pointer font-bold border-b-2 ${step === 1 ? "border-red" : "border-w hover:border-text1"}`}
+                        onClick={() => {
+                            setStep(1);
+                            getAPIPostBusiness(idBusiness, setPost);
+                        }}
+                    >
+                        Đang hiển thị
+                    </div>
+                    <div
+                        className={`text-base cursor-pointer font-bold border-b-2 ${step === 2 ? "border-red" : "border-w hover:border-text1"}`}
+                        onClick={() => {
+                            setStep(2);
+                            getAPIPostHiddenBusiness(idBusiness, setPost);
+                        }}
+                    >
+                        Đang ẩn
+                    </div>
+                    <div
+                        className={`text-base cursor-pointer font-bold border-b-2 ${step === 4 ? "border-red" : "border-w hover:border-text1"}`}
+                        onClick={() => {
+                            setStep(4);
+                            getAPIPostExpireBusiness(idBusiness, setPost);
+                        }}
+                    >
+                        Đã hết hạn
+                    </div>
                 </div>
             </div>
             <div className="max-w-main mx-auto mb-2 px-2 bg-w py-2">

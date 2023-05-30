@@ -1,12 +1,21 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Nav, Footer } from "~/components";
+import { path } from "~/routes/path";
 
 function Default({ children }) {
+    const navigate = useNavigate();
+    const candidate = JSON.parse(localStorage.getItem("isCandidate"));
+    useEffect(() => {
+        if (!candidate) {
+            navigate(path.BSIGNIN);
+        }
+        // eslint-disable-next-line
+    }, [candidate]);
     return (
         <div className="relative min-h-screen">
-            <Nav />
-            <div className="pt-nav pb-footer min-h-screen bg-second">
-                {children}
-            </div>
+            <Nav candidate={candidate} />
+            <div className="pt-nav pb-footer min-h-screen bg-second">{children}</div>
             <Footer />
         </div>
     );

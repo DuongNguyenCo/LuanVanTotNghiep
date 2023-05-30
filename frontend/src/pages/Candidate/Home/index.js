@@ -73,10 +73,10 @@ function Home() {
                             },
                         }}
                     >
-                        {dataB.map((e) => {
+                        {dataB?.data.map((e, index) => {
                             return (
                                 <SwiperSlide key={e.id}>
-                                    <DCBusiness name={e.name} city={e.addresses[0].city} count={e.posts.length} url={e.img} id={e.id} />
+                                    <DCBusiness name={e.name} city={e.addresses[0].city} count={dataB.data1[index].length} url={e.img} id={e.id} />
                                 </SwiperSlide>
                             );
                         })}

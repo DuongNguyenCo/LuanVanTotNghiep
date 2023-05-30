@@ -6,20 +6,22 @@ let login = (payload) => {
         try {
             const data = await db.candidate.findOne({
                 where: { email: payload.email },
-                attributes: ["id", "first_name", "last_name", "password"],
+                attributes: ["id", "email", "first_name", "last_name", "password"],
                 raw: true,
             });
             if (data) {
                 const result = checkPassword(payload.password, data.password);
-                const { password, ...other } = data;
-                const aToken = accessToken(other);
-                const rToken = refreshToken(other);
                 if (result) {
+                    const { password, id, email, ...other } = data;
+                    const tokenAccess = accessToken({ id, email });
+                    const tokenRefresh = refreshToken({ id, email });
                     resolve({
+                        isBusiness: 0,
                         status: 0,
-                        mess: "Login Successfully",
-                        data: { ...other, accessToken: aToken },
-                        token: { refreshToken: rToken },
+                        mess: "Successful Search",
+                        data: { ...other, id, email },
+                        tokenAccess,
+                        tokenRefresh,
                     });
                 } else resolve({ status: 1, mess: "Incorrect information" });
             } else {

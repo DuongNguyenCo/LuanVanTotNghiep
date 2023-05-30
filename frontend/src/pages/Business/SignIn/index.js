@@ -28,16 +28,7 @@ function SignIn() {
                     <div className="h-[1px] w-full bg-text1"></div>
                 </div>
                 <form onSubmit={handleSubmit}>
-                    <Input
-                        className="mb-2"
-                        type="text"
-                        label="Email"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                        setValue={setData}
-                        init={data}
-                    />
+                    <Input className="mb-2" type="email" label="Email" id="email" name="email" placeholder="Email" setValue={setData} init={data} />
                     <Input
                         className="mb-2"
                         setValue={setData}

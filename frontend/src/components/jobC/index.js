@@ -37,9 +37,19 @@ function Job(prop) {
                     />
                 </div>
             </div>
-            <div>
+            <div className="flex gap-2">
                 {address.map((e) => {
-                    return <p key={e.id}>{e.city}</p>;
+                    const list = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+                    let a = e.district.split(" ");
+                    return (
+                        <p className="bg-second px-2 rounded-[5px]" key={e.id}>
+                            {a[0] === "Thành"
+                                ? ((a = a.slice(2)), (a = a.join(" ")))
+                                : a[0] === "Quận" && list.includes(a[1])
+                                ? (a = a.join(" "))
+                                : ((a = a.slice(1)), (a = a.join(" ")))}
+                        </p>
+                    );
                 })}
             </div>
             <div className="text-[14px] text-[rgb(104,186,80)] mb-1">

@@ -8,9 +8,8 @@ import { getAPIBusinessID } from "~/redux/apiRequests";
 
 function DetailBusiness() {
     const { nameBusiness } = useParams();
-    // const data = useSelector((state) => state.business.businessChoose);
     const [data, setData] = useState();
-
+    console.log("data: ", data);
     useEffect(() => {
         getAPIBusinessID(nameBusiness, setData);
     }, [nameBusiness]);
@@ -25,13 +24,13 @@ function DetailBusiness() {
                         className="h-40 w-40 flex justify-center items-center border p-2 mx-4 my-3 
                         mobile:m-0"
                     >
-                        <img src={data?.img} alt="123" />
+                        <img src={data?.data.img} alt="123" />
                     </div>
                     <div
                         className="flex-1 mb-2 pb-2
                         mobile:w-full mobile:text-center"
                     >
-                        <div className="my-5 text-2xl mobile:my-2">{data?.name}</div>
+                        <div className="my-5 text-2xl mobile:my-2">{data?.data.name}</div>
                         <div
                             className="grid grid-cols-3 gap-1
                             mobile:grid-cols-2"
@@ -76,32 +75,34 @@ function DetailBusiness() {
                         className="col-span-2
                         mobile:col-span-1"
                     >
-                        <div className="bg-w mb-3">
-                            <div className="px-5 py-3">
-                                <p className="my-2 text-2xl">Doanh Nghiệp tuyển dụng</p>
+                        {data?.data1.length > 0 && (
+                            <div className="bg-w mb-3">
+                                <div className="px-5 py-3">
+                                    <p className="my-2 text-2xl">Doanh Nghiệp tuyển dụng</p>
+                                </div>
+                                <div className="px-5 py-3">
+                                    {data?.data1.map((e) => {
+                                        return (
+                                            <DCBBusinessJob
+                                                key={e.id}
+                                                url={data?.data.img}
+                                                nameP={e.job.name}
+                                                salary_min={e.job.salary_max}
+                                                salary_max={e.job.salary_min}
+                                                language={e.job.languages}
+                                                address={e.job.addresses}
+                                                timePost={e.createdAt}
+                                            />
+                                        );
+                                    })}
+                                </div>
                             </div>
-                            <div className="px-5 py-3">
-                                {data?.posts.map((e) => {
-                                    return (
-                                        <DCBBusinessJob
-                                            key={e.id}
-                                            url={data?.img}
-                                            nameP={e.job.name}
-                                            salary_min={e.job.salary_max}
-                                            salary_max={e.job.salary_min}
-                                            language={e.job.languages}
-                                            address={e.job.addresses}
-                                            timePost={e.createdAt}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </div>
+                        )}
                         <div className="bg-w ">
                             <div className="px-5 py-3">
                                 <p className="my-2 text-2xl">Giới thiệu công ty</p>
                             </div>
-                            <div className="px-5 pb-3 text-justify">{data?.description}</div>
+                            <div className="px-5 pb-3 text-justify">{data?.data.description}</div>
                         </div>
                     </div>
                     <div>

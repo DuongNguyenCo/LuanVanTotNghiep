@@ -9,6 +9,7 @@ function DetailJob() {
     const { nameJob } = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState();
+    console.log("data: ", data);
     const [dataRelate, setDataRelate] = useState();
     const date = new Date(data?.createdAt);
     const [tim, setTim] = useState(true);

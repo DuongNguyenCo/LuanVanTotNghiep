@@ -27,7 +27,8 @@ let initWebRoutes = (app) => {
     router.get("/api/v2/post/getAllByIdBusiness/:id", post.getAllByIdBusiness);
     router.get("/api/v2/post/getAllPostByID/:id", post.getAllPostByID);
     router.get("/api/v2/post/getAllCandidateByIdPost/:id", post.getAllByIdPost);
-    router.get("/api/v2/post/getAllCandidateByIdPost/:id", post.getAllByIdPost);
+    router.get("/api/v2/post/getAllExpire/:id", post.getAllExpireByIdBusiness);
+    router.get("/api/v2/post/getAllHidden/:id", post.getAllHiddenByIdBusiness);
     router.put("/api/v2/post/updateStep", post.updateStep);
     router.put("/api/v2/post/updateService", post.updateService);
 
@@ -38,6 +39,7 @@ let initWebRoutes = (app) => {
     router.get("/api/v2/business/getall", business.getAll);
     router.get("/api/v2/business/getById/:id", business.getById);
     router.post("/api/v2/business/signIn", business.signIn);
+    router.post("/api/v2/business/signUp", business.signUp);
 
     //type
     router.get("/api/v2/typejob/gettall", typejob.getAll);

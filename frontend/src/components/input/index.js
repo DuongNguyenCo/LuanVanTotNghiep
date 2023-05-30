@@ -16,7 +16,7 @@ function Input(props) {
                         [e.target.name]: e.target.value,
                     });
                 }}
-                className={`${label && "mt-2 "}
+                className={`${label && "mt-[2px] "}
                             disabled:bg-[rgb(242,242,242)]
                             placeholder:text-[hsl(0,0%,50%)]s
                             block

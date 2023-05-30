@@ -5,6 +5,7 @@ import { getAPIBusiness } from "~/redux/apiRequests";
 
 function Business() {
     const dataB = useSelector((state) => state.business.businesses);
+    console.log("dataB: ", dataB);
 
     const [find, setFind] = useState({ text: "" });
 
@@ -28,8 +29,8 @@ function Business() {
                     className="grid grid-cols-1 gap-4 w-auto mx-10 
         mobile:mx-3"
                 >
-                    {dataB.map((e) => {
-                        return <DCBBusiness key={e.id} nameB={e.name} url={e.img} description={e.description} post={e.posts.length} />;
+                    {dataB?.data.map((e, index) => {
+                        return <DCBBusiness key={e.id} nameB={e.name} url={e.img} description={e.description} post={dataB?.data1[index].length} />;
                     })}
                 </div>
             </div>

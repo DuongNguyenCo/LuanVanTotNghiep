@@ -19,16 +19,18 @@ function Candidate() {
         const date = new Date(e.time);
         setTime(date.toLocaleDateString());
         setOption(e);
+        getAPICandidateByPost(e.value, setCandidate);
     };
     //useEffect
     useEffect(() => {
         const idBusiness = JSON.parse(localStorage.getItem("isBusiness"))?.id;
-        Promise.all([getAPICandidateByPost(idBusiness, setCandidate), getAPICandidateAllPost(idBusiness, setPost)]);
+        Promise.all([getAPICandidateAllPost(idBusiness, setPost)]);
     }, []);
     useEffect(() => {
         const date = new Date(post[0]?.time);
         setOption(post[0]);
         setTime(date.toLocaleDateString());
+        getAPICandidateByPost(post[0]?.value, setCandidate);
     }, [post]);
     return (
         <>

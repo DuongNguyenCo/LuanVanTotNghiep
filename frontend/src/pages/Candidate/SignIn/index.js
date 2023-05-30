@@ -1,8 +1,21 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Input } from "~/components";
 import { path } from "~/routes/path";
+import { signInCandidate } from "~/redux/apiRequests";
+import { useDispatch } from "react-redux";
 
 function SignIn() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+    });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        signInCandidate(data, dispatch, navigate);
+    };
     return (
         <div className="w-main mx-auto min-h-[calc(100vh-60px)] flex bg-w ">
             <div className="w-6/12 my-auto px-32 ">
@@ -13,21 +26,17 @@ function SignIn() {
                     <div className="mx-2">Hoặc</div>
                     <div className="h-[1px] w-full bg-text1"></div>
                 </div>
-                <form>
-                    <Input
-                        request={true}
-                        label="Email"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                    />
+                <form onSubmit={handleSubmit}>
+                    <Input request={true} label="Email" id="email" name="email" placeholder="Email" init={data} setValue={setData} />
                     <Input
                         request={true}
                         label="Mật khẩu"
                         id="password"
-                        name="pass"
+                        name="password"
                         type="password"
                         placeholder="Mật khẩu"
+                        init={data}
+                        setValue={setData}
                     />
                     <p className="text-right text-red-600">{}</p>
                     <Button label="Đăng Nhập" className="w-full h-10 mt-3" />
@@ -40,15 +49,9 @@ function SignIn() {
                 </div>
             </div>
             <div className="w-6/12 my-auto">
-                <p>
-                    Sign in to get instant access to thousands of reviews and
-                    salary information
-                </p>
+                <p>Sign in to get instant access to thousands of reviews and salary information</p>
                 <p>View salary to help you negotiate your offer or pay rise</p>
-                <p>
-                    Find out about benefits, interview, company culture via
-                    reviews
-                </p>
+                <p>Find out about benefits, interview, company culture via reviews</p>
                 <p>Easy apply with only 1 click</p>
                 <p>Manage your own profile & privacy</p>
             </div>

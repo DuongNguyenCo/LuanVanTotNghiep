@@ -8,6 +8,7 @@ import { getAPIPostHot } from "~/redux/apiRequests";
 
 function Job() {
     const dataP = useSelector((state) => state.post.postHots);
+    console.log('dataP: ', dataP);
     const test = [
         { label: 1, value: 1 },
         { label: 2, value: 2 },

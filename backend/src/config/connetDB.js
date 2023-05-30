@@ -13,16 +13,17 @@ require("dotenv").config();
 // );
 
 const sequelize = new Sequelize("luanvantotnghiep", "root", null, {
-  host: "127.0.0.1",
-  dialect: "mysql",
-  logging: false,
+    host: "127.0.0.1",
+    dialect: "mysql",
+    logging: false,
+    query: { raw: true },
 });
 let connet = async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("ket noi thanh cong");
-  } catch (e) {
-    console.error("ket noi that bai", e);
-  }
+    try {
+        await sequelize.authenticate();
+        console.log("ket noi thanh cong");
+    } catch (e) {
+        console.error("ket noi that bai", e);
+    }
 };
 module.exports = connet;

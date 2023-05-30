@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function HCBusiness(props) {
     const { name, city, count, url } = props;
-    const customAddress = city.split(" ");
+    const customAddress = city !== false && city.split(" ");
 
     return (
         <Link
@@ -21,7 +21,8 @@ function HCBusiness(props) {
                 </div>
                 <p className="w-full text-center min-h-[80px]  mb-2">{name}</p>
                 <p className="w-full text-center mb-2">
-                    {customAddress[0] === "Thành" ? customAddress.slice(2).join(" ") : customAddress.slice(1).join(" ")}- {count} công việc
+                    {customAddress !== false && customAddress[0] === "Thành" ? customAddress?.slice(2).join(" ") : customAddress?.slice(1).join(" ")}{" "}
+                    - {count} công việc
                 </p>
             </div>
         </Link>
