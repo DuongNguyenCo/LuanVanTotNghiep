@@ -6,3 +6,6 @@ export { default as BusinessC } from "~/pages/Candidate/Business";
 export { default as JobDetailC } from "~/pages/Candidate/DetailJob";
 export { default as BusinessDetailC } from "~/pages/Candidate/DetailBusiness";
 export { default as Apply } from "~/pages/Candidate/Apply";
+export { default as InforC } from "~/pages/Candidate/Information";
+export { default as MyCVC } from "~/pages/Candidate/MyCV";
+export { default as MyJobC } from "~/pages/Candidate/MyJob";

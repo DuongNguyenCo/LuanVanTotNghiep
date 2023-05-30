@@ -7,6 +7,9 @@ export const path = {
     CDETAILJOB: "/chi-tiet-cong-viec/:nameJob",
     CDETAILBUSINESS: "/chi-tiet-doanh-nghiep/:nameBusiness",
     CAPPLY: "/ung-tuyen/:nameJobApply",
+    CINFOR: "/thong-tin-ca-nhan",
+    CMYCV: "/cv-cua-toi",
+    CMYJOB: "/cong-viec-cua-toi",
 
     BSIGNIN: "/doanh-nghiep/dang-nhap",
     BSIGNUP: "/doanh-nghiep/dang-ky",

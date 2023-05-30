@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { path } from "~/routes/path";
 function Nav(prop) {
     const { candidate } = prop;
-    console.log("cadidate: ", candidate);
 
     const [bar, setBar] = useState("hidden");
     const handleBar = () => {
@@ -41,14 +40,18 @@ function Nav(prop) {
                         </Link>
                         {candidate ? (
                             <div className="px-4 text-center text-text1 relative group  cursor-pointer">
-                                <div className="flex items-center h-full">{candidate.first_name + " " + candidate.last_name}</div>
+                                <div className="flex min-w-[140px] items-center h-full">{candidate.first_name + " " + candidate.last_name}</div>
                                 <div className="absolute left-0 w-full text-left hidden group-hover:block">
-                                    <Link>
-                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Thông tin</p>
+                                    <Link to={path.CINFOR}>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Thông tin cá nhận </p>
                                     </Link>
-                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Hoạt động</p>
-                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Quản lý CV</p>
-                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Đăng xuất</p>
+                                    <Link to={path.CMYJOB}>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Việc làm của tôi</p>
+                                    </Link>
+                                    <Link to={path.CMYCV}>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Quản lý CV</p>
+                                    </Link>
+                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Đăng xuất</p>
                                 </div>
                             </div>
                         ) : (

@@ -6,7 +6,7 @@ function JobRelate(prop) {
     return (
         <Link to={`/chi-tiet-cong-viec/${nameP}`} className="rounded-md border border-text1 p-2">
             <div className="flex w-full mb-2">
-                <div className="w-3/12 flex  items-center mr-3">
+                <div className="w-3/12 flex items-center mr-3">
                     <img src={url} alt="123" />
                 </div>
                 <div className="flex-1 flex flex-col gap-0.5">

@@ -1,6 +1,6 @@
 //{ path: '/Signin', component: Signin, layout: LayoutSignInUp },
 import { Default, DefaultB, NoFooter, SignInUp } from "~/layouts";
-import { HomeC, SignInC, SignUpC, JobC, BusinessC, JobDetailC, BusinessDetailC, Apply } from "~/pages/Candidate";
+import { HomeC, SignInC, SignUpC, JobC, BusinessC, JobDetailC, BusinessDetailC, Apply, InforC, MyCVC, MyJobC } from "~/pages/Candidate";
 import { HomeB, SignInB, SignUpB, JobB, CandidateB, PostB, InforB } from "~/pages/Business";
 import { path } from "./path";
 
@@ -13,6 +13,9 @@ export const router = [
     { path: path.CAPPLY, component: Apply, layout: SignInUp },
     { path: path.CSIGNIN, component: SignInC, layout: SignInUp },
     { path: path.CSIGNUP, component: SignUpC, layout: SignInUp },
+    { path: path.CINFOR, component: InforC, layout: Default },
+    { path: path.CMYCV, component: MyCVC, layout: Default },
+    { path: path.CMYJOB, component: MyJobC, layout: Default },
 
     { path: path.BSIGNIN, component: SignInB, layout: SignInUp },
     { path: path.BSIGNUP, component: SignUpB, layout: SignInUp },
