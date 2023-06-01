@@ -64,7 +64,7 @@ export const upload = (file, name) => {
     return new Promise(async (resolve, reject) => {
         try {
             let bufferStream = new stream.PassThrough();
-            bufferStream.end(file.data);
+            bufferStream.end(file.file.data);
             const result = await drive.files.create({
                 requestBody: {
                     name: name,

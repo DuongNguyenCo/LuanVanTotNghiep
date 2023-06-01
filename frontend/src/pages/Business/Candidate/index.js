@@ -124,8 +124,7 @@ function Candidate() {
                         <div className="flex-1">Trạng thái</div>
                         <div className="flex-[0.5] text-center">Thao tác</div>
                     </div>
-                    {candidate?.apply.map((e) => {
-                        console.log("e: ", e);
+                    {candidate?.data.data.apply.map((e, index) => {
                         return (
                             <CandidateB
                                 key={e.id}
@@ -133,6 +132,7 @@ function Candidate() {
                                 exp="moi ra truong"
                                 timeApply={e.cv_post.createdAt}
                                 status={e.cv_post.status}
+                                download={candidate?.data.data1[index].file}
                             />
                         );
                     })}

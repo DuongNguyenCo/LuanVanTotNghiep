@@ -256,7 +256,7 @@ export const getAPICandidateByPost = async (id_post, setCandidate) => {
             url: `/api/v2/post/getAllCandidateByIdPost/${id_post}`,
         });
         if (data.status === 0) {
-            setCandidate(data.data);
+            setCandidate({ data: data.data, file: data.file });
         }
     } catch (e) {
         return e;

@@ -8,7 +8,7 @@ function Default({ children }) {
     const candidate = JSON.parse(localStorage.getItem("isCandidate"));
     useEffect(() => {
         if (!candidate) {
-            navigate(path.BSIGNIN);
+            navigate(path.CSIGNIN);
         }
         // eslint-disable-next-line
     }, [candidate]);

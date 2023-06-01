@@ -1,8 +1,10 @@
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBan, faDownload } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 function Candidate(prop) {
-    const { nameC, exp, timeApply, status, onChange } = prop;
+    const { nameC, exp, timeApply, status, onChange, download } = prop;
+    console.log("download: ", download);
     const time = new Date(timeApply);
     const listStatus = [
         { value: 0, label: "Bước 1" },
@@ -26,9 +28,9 @@ function Candidate(prop) {
                 <div>
                     <FontAwesomeIcon icon={faBan} className="text-text1 hover:text-b" />
                 </div>
-                <div>
+                <Link to={download}>
                     <FontAwesomeIcon icon={faDownload} className="text-text1 hover:text-b" />
-                </div>
+                </Link>
             </div>
         </div>
     );

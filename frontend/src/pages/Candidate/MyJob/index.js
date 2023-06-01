@@ -7,7 +7,7 @@ function MyJob() {
         label: "Việc làm đã lưu",
     });
     return (
-        <div className="">
+        <>
             <div className="bg-w">
                 <div className="w-main px-3 mx-auto mb-2 flex gap-3">
                     <div
@@ -55,7 +55,7 @@ function MyJob() {
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

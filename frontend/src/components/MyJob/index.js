@@ -34,7 +34,7 @@ function DivMyJobSave() {
                     <Button label="Ứng tuyển" className="px-4 py-2" />
                     <Button
                         label={<FontAwesomeIcon icon={solidHeart} className={"text-red w-full h-full hover:text-red"} />}
-                        className="max-w-[30px] bg-inherit flex"
+                        className="max-w-[30px] !bg-inherit flex"
                         onClick={(e) => {
                             // e.stopPropagation();
                             e.preventDefault();

@@ -7,6 +7,8 @@ import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid } from "swiper";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { path } from "~/routes/path";
 
 function Home() {
     const dispatch = useDispatch();
@@ -50,7 +52,9 @@ function Home() {
                     <div className="flex gap-2 items-end w-full mb-2">
                         <p className="flex-1 text-2xl font-bold">Các doanh nghiệp hàng đầu</p>
                         <div className="">
-                            <p className="italic uppercase decora text-link cursor-pointer">Xem tất cả</p>
+                            <Link to={path.CBUSINESS} className="italic uppercase decora text-link cursor-pointer">
+                                Xem tất cả
+                            </Link>
                         </div>
                     </div>
                     <Swiper
@@ -89,8 +93,10 @@ function Home() {
                 >
                     <div className="flex gap-2 items-end w-full mb-2">
                         <p className="flex-1 text-2xl font-bold">Công việc nóng</p>
-                        <div className="">
-                            <p className="italic uppercase decora text-link cursor-pointer">Xem tất cả</p>
+                        <div>
+                            <Link to={path.CJOB} className="italic uppercase decora text-link cursor-pointer">
+                                Xem tất cả
+                            </Link>
                         </div>
                     </div>
                     <Swiper

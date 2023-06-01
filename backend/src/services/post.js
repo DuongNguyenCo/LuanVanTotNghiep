@@ -126,7 +126,7 @@ const getAllByIdBusiness = (id) => {
                         attributes: ["id", "name"],
                         include: [
                             { model: db.language, attributes: ["id", "name"] },
-                            { model: db.address, attributes: ["id", "city"] },
+                            { model: db.address, attributes: ["id", "district"] },
                         ],
                     },
                     { model: db.service, attributes: ["id", "name"] },
@@ -156,7 +156,7 @@ const getAllExpireByIdBusiness = (id) => {
                         attributes: ["id", "name"],
                         include: [
                             { model: db.language, attributes: ["id", "name"] },
-                            { model: db.address, attributes: ["id", "city"] },
+                            { model: db.address, attributes: ["id", "district"] },
                         ],
                     },
                     { model: db.service, attributes: ["id", "name"] },
@@ -187,7 +187,7 @@ const getAllHiddenByIdBusiness = (id) => {
                         attributes: ["id", "name"],
                         include: [
                             { model: db.language, attributes: ["id", "name"] },
-                            { model: db.address, attributes: ["id", "city"] },
+                            { model: db.address, attributes: ["id", "district"] },
                         ],
                     },
                     { model: db.service, attributes: ["id", "name"] },
@@ -215,18 +215,27 @@ const getAllByIdPost = (id) => {
                     {
                         model: db.candidate,
                         attributes: ["id", "first_name", "last_name"],
-                        include: [{ model: db.cv, attributes: ["id", "file"] }],
                         as: "apply",
                     },
                 ],
                 where: { id: id },
             });
+            if (data) {
+                const data1 = await Promise.all(
+                    data?.dataValues.apply.map(async (e) => {
+                        return await await db.cv.findOne({
+                            attributes: ["id", "file"],
+                            where: { id: e.cv_post.id_cv },
+                        });
+                    })
+                );
 
-            resolve({
-                status: 0,
-                mess: "Find All Successfully",
-                data,
-            });
+                resolve({
+                    status: 0,
+                    mess: "Find All Successfully",
+                    data: { data, data1 },
+                });
+            }
         } catch (e) {
             reject(e);
         }

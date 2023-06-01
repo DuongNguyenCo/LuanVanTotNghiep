@@ -5,6 +5,7 @@ import { applyPost, getAPIJobIdApply } from "~/redux/apiRequests";
 
 function Apply() {
     const { nameJobApply } = useParams();
+    const candidate = JSON.parse(localStorage.getItem("isCandidate"));
     const navigate = useNavigate();
     const [data, setData] = useState();
     const [apply, setApply] = useState({ file: null, description: "" });
@@ -14,7 +15,7 @@ function Apply() {
         fd.append("file", apply.file);
         fd.append("description", apply.description);
         fd.append("id_post", data.id);
-        fd.append("id_candidate", 1);
+        fd.append("id_candidate", candidate.id);
         await applyPost(fd);
         navigate(`/chi-tiet-cong-viec/${nameJobApply}`);
     };

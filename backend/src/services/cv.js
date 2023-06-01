@@ -7,7 +7,7 @@ const apply = (infor, file) => {
                 where: { id_post: infor.id_post, id_candidate: infor.id_candidate },
             });
             if (!cv_post) {
-                const resultUpload = await upload(file, "nguyenco");
+                const resultUpload = await upload(file, infor.id_candidate);
                 const cv = await db.cv.create({
                     id: resultUpload.id,
                     id_candidate: infor.id_candidate,
