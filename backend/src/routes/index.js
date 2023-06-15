@@ -31,6 +31,8 @@ let initWebRoutes = (app) => {
     router.get("/api/v2/post/getAllHidden/:id", post.getAllHiddenByIdBusiness);
     router.put("/api/v2/post/updateStep", post.updateStep);
     router.put("/api/v2/post/updateService", post.updateService);
+    router.put("/api/v2/post/updateState", post.updateState);
+    router.delete("/api/v2/post/deletePost", post.deletePost);
 
     //job
     router.post("/api/v2/job/create", job.create);

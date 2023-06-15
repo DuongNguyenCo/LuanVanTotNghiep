@@ -108,7 +108,7 @@ function Post() {
 
     const submitComplete = async () => {
         if (dataService.defaultService !== 0) {
-            submitStepThree(dataService, id_post, navigate);
+            submitStepThree(dataService, id_post, idBusiness, navigate);
         } else {
             console.log("chua chon dich vu");
         }

@@ -3,7 +3,7 @@ import { faPencil, faRepeat } from "@fortawesome/free-solid-svg-icons";
 import { faEyeSlash, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 function Job(prop) {
-    const { nameP, id, address, emailApply, service, expire, cv } = prop;
+    const { nameP, id, address, emailApply, service, expire, cv, handleHidden, handleDelete, handleUpdate, handleReload } = prop;
     const dateExpire = new Date(expire);
     const dateNow = new Date();
     let timeExpire = Math.floor((dateExpire.getTime() - dateNow.getTime()) / (1000 * 60 * 60 * 24));
@@ -29,16 +29,24 @@ function Job(prop) {
                 </div>
                 <div>{emailApply}</div>
                 <div className="flex gap-2">
-                    <div>
+                    <div onClick={handleUpdate()}>
                         <FontAwesomeIcon className="text-text1 text-xs cursor-pointer" icon={faPencil} />
                     </div>
-                    <div>
+                    <div
+                        onClick={() => {
+                            handleHidden(id);
+                        }}
+                    >
                         <FontAwesomeIcon className="text-text1 text-xs cursor-pointer" icon={faEyeSlash} />
                     </div>
-                    <div>
+                    <div
+                        onClick={() => {
+                            handleDelete(id);
+                        }}
+                    >
                         <FontAwesomeIcon className="text-text1 text-xs cursor-pointer" icon={faTrashCan} />
                     </div>
-                    <div>
+                    <div onClick={handleReload()}>
                         <FontAwesomeIcon className="text-text1 text-xs cursor-pointer" icon={faRepeat} />
                     </div>
                 </div>

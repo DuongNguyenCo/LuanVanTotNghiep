@@ -328,15 +328,13 @@ export const submitStepTwo = async (step, id_post) => {
     }
 };
 
-export const submitStepThree = async (service, id_post, navigate) => {
+export const submitStepThree = async (service, id_post, id_business, navigate) => {
     try {
         const data = await axios({
             method: "PUT",
             url: "/api/v2/post/updateService",
-            data: { service, id_post },
+            data: { service, id_post, id_business },
         });
-        console.log("data: ", data);
-
         if (data.status === 0) {
             navigate(path.BJOB);
         } else if (data.status === -1) {
@@ -405,6 +403,36 @@ export const addNewAddress = async (address, id_business) => {
             url: "/api/v2/address/create",
             data: { address, id_business },
         });
+    } catch (e) {
+        return e;
+    }
+};
+
+export const hiddenPost = async (id_post, id_business, setPost) => {
+    try {
+        const data = await axios({
+            method: "PUT",
+            url: "/api/v2/post/updateState",
+            data: { id_post, id_business },
+        });
+        if (data.status === 0) {
+            setPost(data.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const deletePost = async (id_post, id_business, setPost) => {
+    try {
+        const data = await axios({
+            method: "DELETE",
+            url: `/api/v2/post/deletePost`,
+            data: { id_post, id_business },
+        });
+        if (data.status === 0) {
+            setPost(data.data);
+        }
     } catch (e) {
         return e;
     }

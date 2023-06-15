@@ -36,6 +36,13 @@ const getAllExpireByIdBusiness = async (req, res) => {
 const getAllHiddenByIdBusiness = async (req, res) => {
     res.status(200).json(await post.getAllHiddenByIdBusiness(req.params.id));
 };
+const updateState = async (req, res) => {
+    res.status(200).json(await post.updateState(req.body));
+};
+
+const deletePost = async (req, res) => {
+    res.status(200).json(await post.deletePost(req.body));
+};
 
 module.exports = {
     getAll,
@@ -48,4 +55,6 @@ module.exports = {
     updateService,
     getAllExpireByIdBusiness,
     getAllHiddenByIdBusiness,
+    updateState,
+    deletePost,
 };

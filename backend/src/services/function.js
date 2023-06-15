@@ -90,7 +90,6 @@ export const deleteFile = (fileId) => {
             const result = await drive.files.delete({
                 fileId,
             });
-            console.log(result);
         } catch (e) {
             reject(e);
         }

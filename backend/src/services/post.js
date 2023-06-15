@@ -290,6 +290,7 @@ const updateStep = (post) => {
 const updateService = (post) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log("post: ", post);
             const { defaultService, optionService } = post.service;
             await db.post_service.create({
                 id_service: defaultService,
@@ -301,14 +302,13 @@ const updateService = (post) => {
                     id_post: post.id_post,
                 });
             }
-
             const data = await db.business.findOne({
                 attributes: ["id", "name"],
                 include: [
                     { model: db.service, attributes: ["id", "type_service", "count_post"], where: { id: defaultService } },
                     { model: db.post, attribute: ["id", "status"], required: false, where: { status: 1 } },
                 ],
-                where: { id: 6 },
+                where: { id: post.id_business },
             });
             if (data?.dataValues.posts.length < data?.dataValues.services[0].count_post) {
                 await db.post.update(
@@ -333,6 +333,106 @@ const updateService = (post) => {
     });
 };
 
+const updateState = (post) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.post.findOne({
+                attributes: ["id", "status"],
+                where: { id: post.id_post },
+                raw: true,
+                nest: true,
+            });
+            if (data) {
+                if (data.status) {
+                    await db.post.update(
+                        { status: 0 },
+                        {
+                            where: {
+                                id: data.id,
+                            },
+                        }
+                    );
+                } else {
+                    await db.post.update(
+                        { status: 0 },
+                        {
+                            where: {
+                                id: data.id,
+                            },
+                        }
+                    );
+                }
+                const data1 = await db.post.findAll({
+                    attributes: ["id", "expire", "status", "expire"],
+                    include: [
+                        { model: db.business, attributes: ["id", "email"], where: { id: post.id_business } },
+                        {
+                            model: db.job,
+                            attributes: ["id", "name"],
+                            include: [
+                                { model: db.language, attributes: ["id", "name"] },
+                                { model: db.address, attributes: ["id", "district"] },
+                            ],
+                        },
+                        { model: db.service, attributes: ["id", "name"] },
+                        { model: db.candidate, attributes: ["id"], as: "apply" },
+                    ],
+                    where: { [Op.and]: { expire: { [Op.gte]: new Date() }, status: 1 } },
+                });
+                resolve({
+                    status: 0,
+                    mess: "Update Successfully",
+                    data: data1,
+                });
+            }
+            resolve({
+                status: -1,
+                mess: "Post Not Found",
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+const deletePost = (post) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.post.destroy({
+                where: {
+                    id: post.id_post,
+                },
+            });
+            if (data) {
+                const data1 = await db.post.findAll({
+                    attributes: ["id", "expire", "status", "expire"],
+                    include: [
+                        { model: db.business, attributes: ["id", "email"], where: { id: post.id_business } },
+                        {
+                            model: db.job,
+                            attributes: ["id", "name"],
+                            include: [
+                                { model: db.language, attributes: ["id", "name"] },
+                                { model: db.address, attributes: ["id", "district"] },
+                            ],
+                        },
+                        { model: db.service, attributes: ["id", "name"] },
+                        { model: db.candidate, attributes: ["id"], as: "apply" },
+                    ],
+                    where: { [Op.and]: { expire: { [Op.gte]: new Date() }, status: 1 } },
+                });
+                resolve({
+                    status: 0,
+                    mess: "Delete Successfully",
+                    data: data1,
+                });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     getAll,
     getById,
@@ -344,4 +444,6 @@ module.exports = {
     updateStep,
     updateService,
     getAllHiddenByIdBusiness,
+    updateState,
+    deletePost,
 };

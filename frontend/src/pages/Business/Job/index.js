@@ -2,13 +2,26 @@ import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useMemo, useState } from "react";
 import { Button, Input, JobB } from "~/components";
-import { getAPIPostBusiness, getAPIPostExpireBusiness, getAPIPostHiddenBusiness } from "~/redux/apiRequests";
+import { deletePost, getAPIPostBusiness, getAPIPostExpireBusiness, getAPIPostHiddenBusiness, hiddenPost } from "~/redux/apiRequests";
 
 function Job() {
     const [post, setPost] = useState([]);
     const [step, setStep] = useState(1);
     const idBusiness = useMemo(() => JSON.parse(localStorage.getItem("isBusiness"))?.id, []);
+    console.log("post: ", post);
 
+    const handleHidden = async (id) => {
+        await hiddenPost(id, idBusiness, setPost);
+    };
+    const handleDelete = (id) => {
+        deletePost(id, idBusiness, setPost);
+    };
+    const handleUpdate = () => {
+        console.log("cap nhat");
+    };
+    const handleReload = () => {
+        console.log("lam moi");
+    };
     useEffect(() => {
         Promise.all([getAPIPostBusiness(idBusiness, setPost)]);
     }, [idBusiness]);
@@ -79,6 +92,10 @@ function Job() {
                             service={e.services}
                             expire={e.expire}
                             cv={e.apply}
+                            handleHidden={handleHidden}
+                            handleDelete={handleDelete}
+                            handleUpdate={handleUpdate}
+                            handleReload={handleReload}
                         />
                     );
                 })}

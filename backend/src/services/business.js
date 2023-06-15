@@ -65,7 +65,6 @@ const getById = (id) => {
                 where: { [Op.and]: { expire: { [Op.gte]: new Date() }, status: 1 } },
             });
 
-            console.log("data1: ", data1);
             resolve({ status: 0, mess: "Find All Successfully", data: { data, data1 } });
         } catch (e) {
             reject(e);
