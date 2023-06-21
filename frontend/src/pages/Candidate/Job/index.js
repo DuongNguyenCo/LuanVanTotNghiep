@@ -4,7 +4,7 @@ import { Button, Input, DCJJob } from "~/components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getAPIPostHot } from "~/redux/apiRequests";
+import { findJob, getAPIPostHot } from "~/redux/apiRequests";
 
 function Job() {
     const dataP = useSelector((state) => state.post.postHots);
@@ -17,9 +17,12 @@ function Job() {
         { label: 6, value: 6 },
         { label: 7, value: 7 },
     ];
-    const [find, setFind] = useState({ text: "" });
+    const [find, setFind] = useState({ name: "" });
     const [filter, setFilter] = useState("hidden");
 
+    const findJ = () => {
+        findJob(find);
+    };
     const dispatch = useDispatch();
     useEffect(() => {
         Promise.all([getAPIPostHot(dispatch)]);
@@ -36,9 +39,9 @@ function Job() {
                     <div className="w-full mb-4 ">
                         <div className="flex justify-center">
                             <div className="flex-1 mr-2">
-                                <Input placeholder="Tìm kiếm theo tên công việc, kỹ năng, công ty..." init={find} setValue={setFind} name="text" />
+                                <Input placeholder="Tìm kiếm theo tên công việc, kỹ năng, công ty..." init={find} setValue={setFind} name="name" />
                             </div>
-                            <Button label="Tìm Kiếm" className="px-5" />
+                            <Button label="Tìm Kiếm" className="px-5" onClick={findJ} />
                         </div>
                     </div>
                     <div className="hidden mobile:block mobile:w-full mobile:h-8 mobile:mb-3">

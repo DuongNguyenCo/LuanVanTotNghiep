@@ -33,6 +33,7 @@ let initWebRoutes = (app) => {
     router.put("/api/v2/post/updateService", post.updateService);
     router.put("/api/v2/post/updateState", post.updateState);
     router.delete("/api/v2/post/deletePost", post.deletePost);
+    router.post("/api/v2/post/findJob", post.findJob);
 
     //job
     router.post("/api/v2/job/create", job.create);

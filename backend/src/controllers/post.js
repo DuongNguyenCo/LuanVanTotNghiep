@@ -43,6 +43,9 @@ const updateState = async (req, res) => {
 const deletePost = async (req, res) => {
     res.status(200).json(await post.deletePost(req.body));
 };
+const findJob = async (req, res) => {
+    res.status(200).json(await post.findJob(req.body));
+};
 
 module.exports = {
     getAll,
@@ -57,4 +60,5 @@ module.exports = {
     getAllHiddenByIdBusiness,
     updateState,
     deletePost,
+    findJob,
 };

@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 import db from "../models/index";
 
 let getAll = () => {
@@ -433,6 +433,36 @@ const deletePost = (post) => {
     });
 };
 
+let findJob = (content) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.post.findAll({
+                attributes: ["id", "id_business", "id_job", "expire", "status", "createdAt"],
+                include: [
+                    {
+                        model: db.business,
+                        attributes: ["name", "img", "id"],
+                    },
+                    {
+                        model: db.job,
+                        attributes: ["id", "name", "salary_min", "salary_max"],
+                        where: content.name !== "" && Sequelize.literal(`MATCH (job.name) AGAINST('${content.name}' IN NATURAL LANGUAGE MODE)`),
+                        include: [
+                            { model: db.language, attributes: ["id", "name"] },
+                            { model: db.address, attributes: ["id", "district"] },
+                        ],
+                    },
+                ],
+                where: { expire: { [Op.gte]: new Date() } },
+                order: [["expire", "DESC"]],
+            });
+            resolve({ status: 0, mess: "findAll successfully", data });
+        } catch (err) {
+            reject(err);
+        }
+    });
+};
+
 module.exports = {
     getAll,
     getById,
@@ -446,4 +476,5 @@ module.exports = {
     getAllHiddenByIdBusiness,
     updateState,
     deletePost,
+    findJob,
 };

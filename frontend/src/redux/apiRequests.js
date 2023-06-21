@@ -437,3 +437,16 @@ export const deletePost = async (id_post, id_business, setPost) => {
         return e;
     }
 };
+
+export const findJob = async (name) => {
+    try {
+        const data = await axios({
+            method: "POST",
+            url: `/api/v2/post/findJob`,
+            data: name,
+        });
+        console.log("data: ", data);
+    } catch (e) {
+        return e;
+    }
+};

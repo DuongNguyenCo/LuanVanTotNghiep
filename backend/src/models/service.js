@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
                 through: models.post_service,
                 foreignKey: "id_service",
             });
-            service.hasMany(models.receipt, { foreignKey: "id_service" });
+            service.belongsToMany(models.receipt, {
+                through: models.receipt_service,
+                foreignKey: "id_service",
+            });
         }
     }
     service.init(

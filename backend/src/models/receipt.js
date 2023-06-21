@@ -4,8 +4,10 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class receipt extends Model {
         static associate(models) {
-            receipt.belongsTo(models.discount, { foreignKey: "id_discount" });
-            receipt.belongsTo(models.service, { foreignKey: "id_service" });
+            receipt.belongsToMany(models.service, {
+                through: models.receipt_service,
+                foreignKey: "id_receipt",
+            });
             receipt.belongsTo(models.business, { foreignKey: "id_business" });
         }
     }
@@ -16,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             id_business: DataTypes.INTEGER,
             name: DataTypes.STRING,
             status: DataTypes.BOOLEAN,
+            total: DataTypes.INTEGER,
         },
         {
             sequelize,

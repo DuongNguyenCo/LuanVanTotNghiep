@@ -4,7 +4,7 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
     class discount extends Model {
         static associate(models) {
-            discount.hasMany(models.receipt, { foreignKey: "id_receipt" });
+            discount.belongsToMany(models.business, { through: models.business_discount, foreignKey: "id_discount" });
         }
     }
     discount.init(
