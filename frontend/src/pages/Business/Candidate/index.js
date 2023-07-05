@@ -47,13 +47,13 @@ function Candidate() {
                                 styles={{ menu: (provided) => ({ ...provided, zIndex: 20 }) }}
                             />
                         </div>
-                        <div className=" text-text1">
+                        <div className="text-text1">
                             <FontAwesomeIcon icon={faClock} className="text-text1 text-sm mr-1" />
                             {time}
                         </div>
                     </div>
                     <div className="flex gap-2 ">
-                        <Input placeholder="Tìm kiếm theo tên, số điện thoại,..." />
+                        <Input placeholder="Tìm kiếm theo tên, số điện thoại,..." className="w-[250px]" />
                         <Button
                             label={<FontAwesomeIcon icon={faSliders} className="text-text1 text-sm" />}
                             className="px-4 bg-w border border-text1"

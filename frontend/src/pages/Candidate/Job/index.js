@@ -4,39 +4,38 @@ import { Button, Input, DCJJob } from "~/components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { findJob, getAPIPostHot } from "~/redux/apiRequests";
+import { findJob, getAPILanguage, getAPIPostHot, getAPITypeJob } from "~/redux/apiRequests";
 
 function Job() {
-    const dataP = useSelector((state) => state.post.postHots);
-    const test = [
-        { label: 1, value: 1 },
-        { label: 2, value: 2 },
-        { label: 3, value: 3 },
-        { label: 4, value: 4 },
-        { label: 5, value: 5 },
-        { label: 6, value: 6 },
-        { label: 7, value: 7 },
+    const data = useSelector((state) => state.post.postHots);
+    const [dataP, setDataP] = useState([]);
+    const salary = [
+        { label: "Thương lượng", value: 0 },
+        { label: "Dưới 10 triệu", value: 10000000 },
+        { label: "Từ 11 đến 20 triệu", value: 11000000 },
+        { label: "Trên 20 triệu", value: 20000000 },
     ];
+    const dispatch = useDispatch();
     const [find, setFind] = useState({ name: "" });
     const [filter, setFilter] = useState("hidden");
+    const [typejob, setTypejob] = useState([]);
+    const [language, setLanguage] = useState([]);
 
     const findJ = () => {
-        findJob(find);
+        findJob(find, dispatch);
     };
-    const dispatch = useDispatch();
     useEffect(() => {
-        Promise.all([getAPIPostHot(dispatch)]);
+        Promise.all([getAPIPostHot(dispatch), getAPITypeJob(setTypejob), getAPILanguage(setLanguage)]);
         // eslint-disable-next-line
     }, []);
+    useEffect(() => {
+        setDataP(data);
+    }, [data]);
     return (
         <>
             <div className="bg-second">
-                <div
-                    className="w-main mx-auto flex-wrap py-2 flex bg-w px-3
-          tablet:w-auto
-          mobile:w-auto"
-                >
-                    <div className="w-full mb-4 ">
+                <div className="flex content-start mb-3 w-main min-h-[500px] mx-auto flex-wrap py-2 flex bg-w px-3 tablet:w-auto mobile:w-auto">
+                    <div className="w-full mb-4 max-h-[40px]">
                         <div className="flex justify-center">
                             <div className="flex-1 mr-2">
                                 <Input placeholder="Tìm kiếm theo tên công việc, kỹ năng, công ty..." init={find} setValue={setFind} name="name" />
@@ -53,27 +52,19 @@ function Job() {
                             className="bg-w border border-text1 w-full h-full"
                         />
                     </div>
-                    <div
-                        className={`w-3/12
-            mobile:w-full mobile:${filter} mobile:border mobile:border-text1 mobile:rounded-md mobile:mb-3
-          `}
-                    >
-                        <div
-                            className="w-full px-6
-            mobile:py-2
-            "
-                        >
+                    <div className={`w-3/12 mobile:w-full mobile:${filter} mobile:border mobile:border-text1 mobile:rounded-md mobile:mb-3`}>
+                        <div className="w-full px-6 mobile:py-2">
                             <div className="pb-1">
                                 <p className=" pb-1">Cấp bậc:</p>
-                                <Select options={test} />
+                                <Select options={typejob} />
                             </div>
                             <div className="py-1">
                                 <p className=" pb-1">Lương:</p>
-                                <Select options={test} />
+                                <Select options={salary} />
                             </div>
                             <div className="py-1">
                                 <p className=" pb-1">Ngôn ngữ lập trình:</p>
-                                <Select options={test} />
+                                <Select options={language} />
                             </div>
                             <div className="flex flex-wrap pt-1">
                                 <p>Cập nhập lần cuối</p>

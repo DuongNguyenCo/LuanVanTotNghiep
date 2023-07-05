@@ -144,6 +144,7 @@ const getAllByIdBusiness = (id) => {
         }
     });
 };
+
 const getAllExpireByIdBusiness = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -164,6 +165,44 @@ const getAllExpireByIdBusiness = (id) => {
                 ],
                 where: { expire: { [Op.lte]: new Date() } },
             });
+            resolve({
+                status: 0,
+                mess: "Find All Successfully",
+                data,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+//cbi bo
+const getAllSevenDayByIdBusiness = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const date = new Date();
+            console.log("date: ", date);
+            let seven = new Date();
+
+            seven = date.getTime() + 604800000;
+            console.log("seven: ", seven);
+            const data = await db.post.findAll({
+                attributes: ["id", "expire"],
+                include: [
+                    { model: db.business, attributes: ["id", "email"], where: { id: id } },
+                    {
+                        model: db.job,
+                        attributes: ["id", "name"],
+                        include: [
+                            { model: db.language, attributes: ["id", "name"] },
+                            { model: db.address, attributes: ["id", "district"] },
+                        ],
+                    },
+                    { model: db.service, attributes: ["id", "name"] },
+                    { model: db.candidate, attributes: ["id"], as: "apply" },
+                ],
+                where: { expire: { [Op.lte]: 604800000 } },
+            });
+            Math.floor((dateExpire.getTime() - dateNow.getTime()) / (1000 * 60 * 60 * 24));
             resolve({
                 status: 0,
                 mess: "Find All Successfully",
@@ -290,7 +329,6 @@ const updateStep = (post) => {
 const updateService = (post) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("post: ", post);
             const { defaultService, optionService } = post.service;
             await db.post_service.create({
                 id_service: defaultService,
@@ -463,12 +501,54 @@ let findJob = (content) => {
     });
 };
 
+let getAllPostByMonth = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.post.findAll({
+                attributes: ["id", "createdAt"],
+                include: [{ model: db.business, attributes: ["id", "email"], where: { id: id } }],
+                order: [["createdAt", "ASC"]],
+            });
+            resolve({
+                status: 0,
+                mess: "Find All Successfully",
+                data,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+let getAllApplyByMonth = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.post.findAll({
+                attributes: ["id", "createdAt"],
+                include: [
+                    { model: db.business, attributes: ["id", "email"], where: { id: id } },
+                    { model: db.candidate, attributes: ["id"], as: "apply" },
+                ],
+                order: [["createdAt", "ASC"]],
+            });
+            resolve({
+                status: 0,
+                mess: "Find All Successfully",
+                data,
+            });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     getAll,
     getById,
     getRelate,
     getAllByIdBusiness,
     getAllExpireByIdBusiness,
+    getAllSevenDayByIdBusiness,
     getAllByIdPost,
     getAllPostByID,
     updateStep,
@@ -477,4 +557,6 @@ module.exports = {
     updateState,
     deletePost,
     findJob,
+    getAllPostByMonth,
+    getAllApplyByMonth,
 };

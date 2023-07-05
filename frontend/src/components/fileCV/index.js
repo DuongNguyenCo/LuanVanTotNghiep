@@ -1,13 +1,13 @@
 import { faPencil, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import bgcv from "~/assets/bgcv.jpg";
+import bgcv from "~/assets/cv.jpg";
 function CV() {
     return (
         <div
-            className="relative  min-h-[300px] bg-opacity-75 bg-contain bg-no-repeat bg-center"
             style={{
-                background: `linear-gradient(to bottom, rgba(135,0,0,0.6), rgba(25,10,5,0.6)),url(${bgcv})`,
+                backgroundImage: `linear-gradient(to bottom, rgba(135,0,0,0.6), rgba(25,10,5,0.6)),url(${bgcv})`,
             }}
+            className="relative min-h-[300px] bg-opacity-75 bg-no-repeat bg-cover"
         >
             <div className="absolute mx-2 bottom-[10px] text-w">
                 <div className="text-[20px] underline cursor-pointer">Tên CV</div>

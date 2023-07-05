@@ -14,5 +14,8 @@ const signIn = async (req, res) => {
 const signUp = async (req, res) => {
     res.status(200).json(await business.signUp(req.body));
 };
+const getBusinessById = async (req, res) => {
+    res.status(200).json(await business.getBusinessById(req.params.id));
+};
 
-module.exports = { getAll, getById, signIn, signUp };
+module.exports = { getAll, getById, signIn, signUp, getBusinessById };

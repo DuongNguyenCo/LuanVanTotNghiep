@@ -1,14 +1,13 @@
 import { faSliders } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Input, JobB } from "~/components";
 import { deletePost, getAPIPostBusiness, getAPIPostExpireBusiness, getAPIPostHiddenBusiness, hiddenPost } from "~/redux/apiRequests";
 
 function Job() {
     const [post, setPost] = useState([]);
     const [step, setStep] = useState(1);
-    const idBusiness = useMemo(() => JSON.parse(localStorage.getItem("isBusiness"))?.id, []);
-    console.log("post: ", post);
+    const idBusiness = JSON.parse(localStorage.getItem("isBusiness"))?.id;
 
     const handleHidden = async (id) => {
         await hiddenPost(id, idBusiness, setPost);

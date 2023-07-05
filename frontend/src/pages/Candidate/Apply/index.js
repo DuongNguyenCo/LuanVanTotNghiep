@@ -6,11 +6,16 @@ import { applyPost, getAPIJobIdApply } from "~/redux/apiRequests";
 function Apply() {
     const { nameJobApply } = useParams();
     const candidate = JSON.parse(localStorage.getItem("isCandidate"));
+    console.log("candidate: ", candidate);
     const navigate = useNavigate();
     const [data, setData] = useState();
     const [apply, setApply] = useState({ file: null, description: "" });
 
     const handleApply = async () => {
+        console.log(apply.file);
+        console.log(apply.description);
+        console.log(data.id);
+        console.log(candidate.id);
         const fd = new FormData();
         fd.append("file", apply.file);
         fd.append("description", apply.description);

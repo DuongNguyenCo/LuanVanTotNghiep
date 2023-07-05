@@ -36,6 +36,10 @@ const getAllExpireByIdBusiness = async (req, res) => {
 const getAllHiddenByIdBusiness = async (req, res) => {
     res.status(200).json(await post.getAllHiddenByIdBusiness(req.params.id));
 };
+
+const getAllSevenDayByIdBusiness = async (req, res) => {
+    res.status(200).json(await post.getAllSevenDayByIdBusiness(req.params.id));
+};
 const updateState = async (req, res) => {
     res.status(200).json(await post.updateState(req.body));
 };
@@ -46,12 +50,19 @@ const deletePost = async (req, res) => {
 const findJob = async (req, res) => {
     res.status(200).json(await post.findJob(req.body));
 };
+const getAllPostByMonth = async (req, res) => {
+    res.status(200).json(await post.getAllPostByMonth(req.params.id));
+};
+const getAllApplyByMonth = async (req, res) => {
+    res.status(200).json(await post.getAllApplyByMonth(req.params.id));
+};
 
 module.exports = {
     getAll,
     getById,
     getRelate,
     getAllByIdBusiness,
+    getAllSevenDayByIdBusiness,
     getAllByIdPost,
     getAllPostByID,
     updateStep,
@@ -61,4 +72,6 @@ module.exports = {
     updateState,
     deletePost,
     findJob,
+    getAllPostByMonth,
+    getAllApplyByMonth,
 };

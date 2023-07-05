@@ -31,7 +31,8 @@ function Job(prop) {
                             />
                         }
                         className=" bg-w border border-text1 p-0.5 flex"
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault();
                             setTim(!tim);
                         }}
                     />

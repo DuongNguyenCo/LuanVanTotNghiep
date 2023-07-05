@@ -12,11 +12,7 @@ function SignInUp({ children }) {
                     mobile:justify-between mobile:w-auto mobile:relative"
                 >
                     <Link to={path.CHOME}>
-                        <img
-                            src={logo}
-                            alt="logo nhà cung cấp"
-                            className="h-10"
-                        />
+                        <img src={logo} alt="logo nhà cung cấp" className="h-10" />
                     </Link>
                 </div>
             </nav>

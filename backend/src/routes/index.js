@@ -19,6 +19,7 @@ let initWebRoutes = (app) => {
     //candidate
     router.post("/api/v2/candidate/signIn", candidate.login);
     router.post("/api/v2/candidate/signUp", candidate.register);
+    router.get("/api/v2/candidate/getById/:id", candidate.getById);
 
     //post
     router.get("/api/v2/post/getall", post.getAll);
@@ -29,11 +30,14 @@ let initWebRoutes = (app) => {
     router.get("/api/v2/post/getAllCandidateByIdPost/:id", post.getAllByIdPost);
     router.get("/api/v2/post/getAllExpire/:id", post.getAllExpireByIdBusiness);
     router.get("/api/v2/post/getAllHidden/:id", post.getAllHiddenByIdBusiness);
+    router.get("/api/v2/post/getAllSevenDay/:id", post.getAllSevenDayByIdBusiness);
     router.put("/api/v2/post/updateStep", post.updateStep);
     router.put("/api/v2/post/updateService", post.updateService);
     router.put("/api/v2/post/updateState", post.updateState);
     router.delete("/api/v2/post/deletePost", post.deletePost);
     router.post("/api/v2/post/findJob", post.findJob);
+    router.get("/api/v2/post/dashboard/:id", post.getAllPostByMonth);
+    router.get("/api/v2/post/dashboard1/:id", post.getAllApplyByMonth);
 
     //job
     router.post("/api/v2/job/create", job.create);
@@ -43,6 +47,7 @@ let initWebRoutes = (app) => {
     router.get("/api/v2/business/getById/:id", business.getById);
     router.post("/api/v2/business/signIn", business.signIn);
     router.post("/api/v2/business/signUp", business.signUp);
+    router.get("/api/v2/business/getByIdInfor/:id", business.getBusinessById);
 
     //type
     router.get("/api/v2/typejob/gettall", typejob.getAll);

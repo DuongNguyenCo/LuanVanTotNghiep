@@ -8,4 +8,7 @@ let register = async (req, res) => {
     res.status(200).json(await candidate.register(req.body));
 };
 
-module.exports = { login, register };
+const getById = async (req, res) => {
+    res.status(200).json(await candidate.getById(req.params.id));
+};
+module.exports = { login, register, getById };

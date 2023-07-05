@@ -23,7 +23,8 @@ function Busiess(prop) {
                             />
                         }
                         className=" bg-w border border-text1 p-0.5 flex"
-                        onClick={() => {
+                        onClick={(e) => {
+                            e.preventDefault();
                             setTim(!tim);
                         }}
                     />
@@ -42,7 +43,7 @@ function Busiess(prop) {
                 <div className="flex-1 flex flex-col mx-3 justify-between">
                     <div className="flex">
                         <div className="flex-1 flex items-center mobile:justify-center">
-                            <Star stars="95" />
+                            <Star stars="5" />
                             <p className="text-2xl mx-2">{5}</p>
                         </div>
                     </div>

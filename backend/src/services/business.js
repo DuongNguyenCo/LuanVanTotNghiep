@@ -28,6 +28,20 @@ const getAll = () => {
     });
 };
 
+const getBusinessById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.business.findOne({
+                attributes: ["id", "name", "phone", "email", "img", "description", "benefit"],
+                where: { id: id },
+            });
+            resolve({ status: 0, mess: "Find All Successfully", data });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
 const getById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -146,4 +160,4 @@ const signUp = (business) => {
         }
     });
 };
-module.exports = { getAll, getById, signIn, signUp };
+module.exports = { getAll, getById, signIn, signUp, getBusinessById };

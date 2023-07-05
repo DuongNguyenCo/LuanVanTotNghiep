@@ -3,6 +3,7 @@ import axiosDefault from "axios";
 import { getPostHot, postChooseBusiness } from "./postSlice";
 import { getBusiness, LoginBusiness } from "./businessSlice";
 import { loginCandidate } from "./candidateSlice";
+import { candidate as authCandidate, business as authBusiness } from "./auth";
 import { path } from "~/routes/path";
 
 // /api/v2/business/signUp
@@ -15,6 +16,7 @@ export const signInBusiness = async (data, dispatch, navigate) => {
         });
         if (business.status === 0) {
             dispatch(LoginBusiness(business.data));
+            dispatch(authBusiness(business.tokenAccess));
             navigate(path.BHOME);
         }
     } catch (e) {
@@ -43,8 +45,11 @@ export const signInCandidate = async (data, dispatch, navigate) => {
             url: "/api/v2/candidate/signIn",
             data: data,
         });
+
+        console.log("candidate: ", candidate);
         if (candidate.status === 0) {
             dispatch(loginCandidate(candidate.data));
+            dispatch(authCandidate(candidate.tokenAccess));
             navigate(path.CHOME);
         }
     } catch (e) {
@@ -187,6 +192,20 @@ export const getAPIAddress = async (setAddress, id) => {
     }
 };
 
+export const getInforAddress = async (id, setAddress) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/address/gettall/${id}`,
+        });
+        if (data.status === 0) {
+            setAddress(data.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
 export const getAPIPostBusiness = async (id_business, setPost) => {
     try {
         const data = await axios({
@@ -219,7 +238,21 @@ export const getAPIPostHiddenBusiness = async (id_business, setPost) => {
             method: "GET",
             url: `/api/v2/post/getAllHidden/${id_business}`,
         });
-        console.log("data: ", data);
+        if (data.status === 0) {
+            setPost(data.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getAPIPostSevenDayBusiness = async (id_business, setPost) => {
+    try {
+        console.log("id_business: ", id_business);
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/post/getAllSevenDay/${id_business}`,
+        });
         if (data.status === 0) {
             setPost(data.data);
         }
@@ -277,6 +310,20 @@ export const getAPIEmailTamplate = async (id_business, setEmaiil) => {
                 };
             });
             setEmaiil([{ value: 0, label: "Không gửi email" }].concat(listEmail));
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getInforEmailTamplate = async (id, setEmaiil) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/email/getByIdBusiness/${id}`,
+        });
+        if (data.status === 0) {
+            setEmaiil(data.data);
         }
     } catch (e) {
         return e;
@@ -352,6 +399,7 @@ export const applyPost = async (apply) => {
             url: "/api/v2/cv/apply",
             data: apply,
         });
+        console.log("data: ", data);
         if (data.status === 0) {
         }
     } catch (e) {
@@ -438,14 +486,114 @@ export const deletePost = async (id_post, id_business, setPost) => {
     }
 };
 
-export const findJob = async (name) => {
+export const findJob = async (name, dispatch) => {
     try {
         const data = await axios({
             method: "POST",
             url: `/api/v2/post/findJob`,
             data: name,
         });
-        console.log("data: ", data);
+        if (data.status === 0) {
+            dispatch(getPostHot(data.data));
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getPostByMonth = async (idBusiness, setMonthPost, monthPost) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/post/dashboard/${idBusiness}`,
+        });
+        if (data.status === 0) {
+            const copyData = [...monthPost];
+            const resultData = data.data.map((e) => {
+                const month = new Date(e.createdAt).getMonth();
+                return month;
+            });
+            const newData = copyData.map((e) => {
+                let count = 0;
+                for (let i = 0; i < resultData.length; i++) {
+                    if (resultData[i] === e.id) {
+                        count++;
+                    }
+                }
+                return { ...e, dang: count };
+            });
+            setMonthPost(newData);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getApplyByMonth = async (idBusiness, setMonthApply, monthApply) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/post/dashboard1/${idBusiness}`,
+        });
+        if (data.status === 0) {
+            console.log(data.data);
+            const copyData = [...monthApply];
+            const resultData = data.data.map((e) => {
+                const month = new Date(e.createdAt).getMonth();
+                return { month, apply: e.apply };
+            });
+            const newData = copyData.map((e) => {
+                let tTuyen = 0;
+                let tFail = 0;
+                let tOther = 0;
+                let tSuccess = 0;
+                for (let i = 0; i < resultData.length; i++) {
+                    if (resultData[i].month === e.id) {
+                        tTuyen = resultData[i].apply.length;
+                        if (resultData[i].apply.length > 0) {
+                            for (let y = 0; y < resultData[i].apply.length; y++) {
+                                if (resultData[i].apply[y].cv_post.status === 0) {
+                                    tFail++;
+                                } else if (resultData[i].apply[y].cv_post.status === 1) {
+                                    tSuccess++;
+                                } else {
+                                    tOther++;
+                                }
+                            }
+                        }
+                    }
+                }
+                return { ...e, fail: tFail, other: tOther, success: tSuccess, tuyen: tTuyen };
+            });
+            setMonthApply(newData);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getCandidateByid = async (id, setCandidate) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/candidate/getById/${id}`,
+        });
+        if (data.status === 0) {
+            setCandidate(data.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+export const getBusinessById = async (id, setBusiness) => {
+    try {
+        const data = await axios({
+            method: "GET",
+            url: `/api/v2/business/getByIdInfor/${id}`,
+        });
+        if (data.status === 0) {
+            setBusiness(data.data);
+        }
     } catch (e) {
         return e;
     }

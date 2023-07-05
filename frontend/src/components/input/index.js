@@ -1,9 +1,11 @@
 function Input(props) {
-    const { id, name, setValue, init, label = undefined, type, placeholder, dis = false, className } = props;
+    const { id, name, setValue, init, label = undefined, type, placeholder, dis = false, className, value } = props;
+
     return (
         <div className={className}>
             <label htmlFor={id}>{label}</label>
             <input
+                defaultValue={value}
                 id={id}
                 type={type || "text"}
                 placeholder={!dis ? placeholder : ""}

@@ -1,6 +1,7 @@
 import { where } from "sequelize";
 import db from "../models/index";
 import { hashPassword, checkPassword, refreshToken, accessToken } from "./function";
+import { dataform } from "googleapis/build/src/apis/dataform";
 let login = (payload) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -55,4 +56,18 @@ let register = (payload) => {
     });
 };
 
-module.exports = { login, register };
+const getById = (id) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const data = await db.candidate.findOne({
+                attributes: ["id", "first_name", "last_name", "email"],
+                where: { id: id },
+            });
+            resolve({ status: 0, mess: "Find Successfully", data });
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+module.exports = { login, register, getById };

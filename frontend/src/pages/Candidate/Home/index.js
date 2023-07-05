@@ -1,23 +1,25 @@
 import { useEffect, useState } from "react";
 import { Button, DCBusiness, DCJob, Input } from "~/components";
-import { getAPIPostHot, getAPIBusiness } from "~/redux/apiRequests";
+import { getAPIPostHot, getAPIBusiness, findJob } from "~/redux/apiRequests";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid } from "swiper";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { path } from "~/routes/path";
 
 function Home() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const dataB = useSelector((state) => state.business.businesses);
     const dataP = useSelector((state) => state.post.postHots);
 
-    const [a, setA] = useState(0);
-    const handleOnClick = () => {
-        console.log(a);
+    const [find, setFind] = useState({ name: "" });
+    const findJ = () => {
+        findJob(find, dispatch);
+        navigate("/danh-sach-cong-viec");
     };
 
     useEffect(() => {
@@ -35,10 +37,10 @@ function Home() {
                     <div className="text-w mobile:text-center">Đang có 1000 công việc tốt đang chờ bạn</div>
                     <div className="flex gap-5 mobile:flex-col">
                         <div className="flex-1">
-                            <Input placeholder="Tìm kiếm công việc theo kỹ năng, công ty" />
+                            <Input placeholder="Tìm kiếm công việc theo kỹ năng, công ty" init={find} setValue={setFind} name="name" />
                         </div>
                         <div className="">
-                            <Button data={setA} onClick={handleOnClick} label="Tìm Kiếm" className=" h-full w-full py-2 px-5 " />
+                            <Button onClick={findJ} label="Tìm Kiếm" className=" h-full w-full py-2 px-5 " />
                         </div>
                     </div>
                 </div>
