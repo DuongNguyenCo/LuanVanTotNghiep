@@ -7,6 +7,8 @@ import { path } from "~/routes/path";
 import { candidate as authCandidate } from "~/redux/auth";
 
 function Nav(prop) {
+    const business = JSON.parse(localStorage.getItem("isBusiness"))
+
     const { candidate } = prop;
     const [candidate1, setCandidate1] = useState(candidate);
     const [bar, setBar] = useState("hidden");
@@ -39,7 +41,7 @@ function Nav(prop) {
                         </Link>
                     </div>
                     <div className="h-full mr-2 flex gap-2 leading-nav ">
-                        <Link to={path.BHOME} target="_blank" className="text-text1">
+                        <Link to={business ? path.BHOME : path.BSIGNIN} target="_blank" className="text-text1">
                             DÀNH CHO NHÀ TUYỂN DỤNG
                         </Link>
                         {candidate1 ? (
@@ -79,7 +81,7 @@ function Nav(prop) {
                     <Link to={path.CBUSINESS} className="text-text1 py-2">
                         DOANH NGHIỆP
                     </Link>
-                    <Link to={path.BHOME} target="_blank" className="text-text1 py-2">
+                    <Link to={business ? path.BHOME : path.BSIGNIN} target="_blank" className="text-text1 py-2">
                         DÀNH CHO NHÀ TUYỂN DỤNG
                     </Link>
                     {candidate1 ? (

@@ -1,13 +1,19 @@
-import { faSliders } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { Button, Input, JobB } from "~/components";
-import { deletePost, getAPIPostBusiness, getAPIPostExpireBusiness, getAPIPostHiddenBusiness, hiddenPost } from "~/redux/apiRequests";
+import { faSliders } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
+import { Button, Input, JobB } from '~/components';
+import {
+    deletePost,
+    getAPIPostBusiness,
+    getAPIPostExpireBusiness,
+    getAPIPostHiddenBusiness,
+    hiddenPost,
+} from '~/redux/apiRequests';
 
 function Job() {
     const [post, setPost] = useState([]);
     const [step, setStep] = useState(1);
-    const idBusiness = JSON.parse(localStorage.getItem("isBusiness"))?.id;
+    const idBusiness = JSON.parse(localStorage.getItem('isBusiness'))?.id;
 
     const handleHidden = async (id) => {
         await hiddenPost(id, idBusiness, setPost);
@@ -16,10 +22,10 @@ function Job() {
         deletePost(id, idBusiness, setPost);
     };
     const handleUpdate = () => {
-        console.log("cap nhat");
+        console.log('cap nhat');
     };
     const handleReload = () => {
-        console.log("lam moi");
+        console.log('lam moi');
     };
     useEffect(() => {
         Promise.all([getAPIPostBusiness(idBusiness, setPost)]);
@@ -29,7 +35,9 @@ function Job() {
             <div className="max-w-main mx-auto pt-3 px-2 bg-w mb-2">
                 <div className="flex gap-10 py-1">
                     <div
-                        className={`text-base cursor-pointer font-bold border-b-2 ${step === 1 ? "border-red" : "border-w hover:border-text1"}`}
+                        className={`text-base cursor-pointer font-bold border-b-2 ${
+                            step === 1 ? 'border-red' : 'border-w hover:border-text1'
+                        }`}
                         onClick={() => {
                             setStep(1);
                             getAPIPostBusiness(idBusiness, setPost);
@@ -38,7 +46,9 @@ function Job() {
                         Đang hiển thị
                     </div>
                     <div
-                        className={`text-base cursor-pointer font-bold border-b-2 ${step === 2 ? "border-red" : "border-w hover:border-text1"}`}
+                        className={`text-base cursor-pointer font-bold border-b-2 ${
+                            step === 2 ? 'border-red' : 'border-w hover:border-text1'
+                        }`}
                         onClick={() => {
                             setStep(2);
                             getAPIPostHiddenBusiness(idBusiness, setPost);
@@ -47,7 +57,9 @@ function Job() {
                         Đang ẩn
                     </div>
                     <div
-                        className={`text-base cursor-pointer font-bold border-b-2 ${step === 4 ? "border-red" : "border-w hover:border-text1"}`}
+                        className={`text-base cursor-pointer font-bold border-b-2 ${
+                            step === 4 ? 'border-red' : 'border-w hover:border-text1'
+                        }`}
                         onClick={() => {
                             setStep(4);
                             getAPIPostExpireBusiness(idBusiness, setPost);
@@ -64,9 +76,17 @@ function Job() {
                             <Input placeholder="Nhập thông tin công việc" />
                         </div>
                         <div className="h-full flex gap-3">
-                            <Button label="Xuất ra Excel" className="px-5 !text-text1 bg-w border border-text1 hover:bg-red hover:!text-w" />
                             <Button
-                                label={<FontAwesomeIcon icon={faSliders} className=" text-text1 text-sm group-hover:text-w" />}
+                                label="Xuất ra Excel"
+                                className="px-5 !text-text1 bg-w border border-text1 hover:bg-red hover:!text-w"
+                            />
+                            <Button
+                                label={
+                                    <FontAwesomeIcon
+                                        icon={faSliders}
+                                        className=" text-text1 text-sm group-hover:text-w"
+                                    />
+                                }
                                 className="group  px-4 bg-w border border-text1 hover:bg-red "
                             />
                         </div>
@@ -83,6 +103,7 @@ function Job() {
                 {post.map((e) => {
                     return (
                         <JobB
+                            status={step}
                             key={e.id}
                             nameP={e.job.name}
                             id={e.id}

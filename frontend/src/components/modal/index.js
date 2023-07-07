@@ -1,14 +1,19 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 function Modal(prop) {
     return (
         <>
             <div
-                className="bg-[rgba(0,0,0,0.2)] w-full h-screen z-[50] top-[38%] left-[50%] absolute translate-x-[-50%] translate-y-[-51.5%]"
+                className={`bg-[rgba(0,0,0,0.2)] w-full h-screen z-[50] top-[0] left-[50%] absolute translate-x-[-50%] `}
                 onClick={() => prop.onClick(false)}
             />
             <div className="fixed z-[51] top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                <div className="w-[450px] min-h-[170px] bg-w rounded-[16px] shadow-[0_5px_20px_0_rgba(0,0,0,0.04)]">
+                <div
+                    className={
+                        (!prop.width ? `w-[450px]` : `w-[${prop.width}px]`) +
+                        ' min-h-[170px] bg-w rounded-[16px] shadow-[0_5px_20px_0_rgba(0,0,0,0.04)]'
+                    }
+                >
                     <div className="h-[50px] rounded-t-[16px]">
                         <h5 className="m-0 p-[10px] text-[#2c3e50] font-[500] text-[18px] text-center">{prop.label}</h5>
                     </div>
@@ -35,7 +40,7 @@ function Modal(prop) {
                                 hover:bg-second hover:shadow-none hover:translate-none"
                                 onClick={() => prop.onClick(false)}
                             >
-                                Cancel
+                                Hủy
                             </button>
                         </div>
                     </div>

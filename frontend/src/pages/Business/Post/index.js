@@ -1,10 +1,10 @@
-import { faPenToSquare, faPlusSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import Select from "react-select";
-import { Button, Input, Modal } from "~/components";
+import { faPenToSquare, faPlusSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Select from 'react-select';
+import { Button, Input, Modal } from '~/components';
 import {
     getAPITypeJob,
     getAPILanguage,
@@ -18,12 +18,13 @@ import {
     getDistrict,
     getWard,
     addNewAddress,
-} from "~/redux/apiRequests";
+} from '~/redux/apiRequests';
 
 function Post() {
     //init
-    const idBusiness = JSON.parse(localStorage.getItem("isBusiness"))?.id;
+    const idBusiness = JSON.parse(localStorage.getItem('isBusiness'))?.id;
     const id_post = useSelector((state) => state.post.postChooseBusiness?.id);
+    console.log('id_post: ', id_post);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -43,17 +44,17 @@ function Post() {
     const [city, setCity] = useState([]);
     const [district, setDistrict] = useState([]);
     const [ward, setWard] = useState([]);
-    isModal ? (document.body.style.overflow = "hidden") : (document.body.style.overflow = "auto");
+    isModal ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'auto');
 
     //data
     const [data, setData] = useState({
-        name: "",
-        id_type_job: "",
+        name: '',
+        id_type_job: '',
         salary_min: 0,
         salary_max: 0,
         quantity: 0,
-        description: "",
-        request: "",
+        description: '',
+        request: '',
         id_location: [],
         id_language: [],
     });
@@ -71,21 +72,21 @@ function Post() {
     const [languageChoose, setLanguageChoose] = useState([]);
     const [addressChoose, setAddressChoose] = useState([]);
     const [newAddress, setNewAddress] = useState({
-        city: "",
-        district: "",
-        ward: "",
-        street: "",
+        city: '',
+        district: '',
+        ward: '',
+        street: '',
     });
 
     //function
 
     const submitStep1 = async () => {
         if (
-            data.name !== "" &&
-            data.id_type_job !== "" &&
+            data.name !== '' &&
+            data.id_type_job !== '' &&
             data.quantity !== 0 &&
-            data.description !== "" &&
-            data.request !== "" &&
+            data.description !== '' &&
+            data.request !== '' &&
             data.id_language.length > 0 &&
             data.id_location.length > 0
         ) {
@@ -93,16 +94,22 @@ function Post() {
             if (a === 0) setStep(step + 1);
             else setStep(step + 1);
         } else {
-            console.log("chua nhap day du thong tin");
+            console.log('chua nhap day du thong tin');
         }
     };
     const submitStep2 = async () => {
-        if (dataStep.step1 !== -1 && dataStep.step2 !== -1 && dataStep.step3 !== -1 && dataStep.step4 !== -1 && dataStep.step5 !== -1) {
+        if (
+            dataStep.step1 !== -1 &&
+            dataStep.step2 !== -1 &&
+            dataStep.step3 !== -1 &&
+            dataStep.step4 !== -1 &&
+            dataStep.step5 !== -1
+        ) {
             const a = submitStepTwo(dataStep, id_post);
             if (a === 0) setStep(step + 1);
             else setStep(step + 1);
         } else {
-            console.log("chua chon quy trinh");
+            console.log('chua chon quy trinh');
         }
     };
 
@@ -110,7 +117,7 @@ function Post() {
         if (dataService.defaultService !== 0) {
             submitStepThree(dataService, id_post, idBusiness, navigate);
         } else {
-            console.log("chua chon dich vu");
+            console.log('chua chon dich vu');
         }
     };
     const preStep = () => {
@@ -121,8 +128,8 @@ function Post() {
         if (e.target.checked) {
             setData({ ...data, salary_min: 0, salary_max: 0 });
         } else {
-            const min = document.getElementById("salary_min").value;
-            const max = document.getElementById("salary_max").value;
+            const min = document.getElementById('salary_min').value;
+            const max = document.getElementById('salary_max').value;
             setData({ ...data, salary_min: min, salary_max: max });
         }
         setSalary(!salary);
@@ -182,17 +189,17 @@ function Post() {
         setIsModal(true);
         window.scrollTo({
             top: 0,
-            behavior: "smooth",
+            behavior: 'smooth',
         });
         await getCity(setCity);
     };
     const handleUpdateAddress = () => {
-        console.log("update");
+        console.log('update');
     };
 
     const handleSubmit = () => {
         addNewAddress(newAddress, idBusiness);
-        setNewAddress({ city: "", district: "", ward: "", street: "" });
+        setNewAddress({ city: '', district: '', ward: '', street: '' });
         setIsModal(false);
     };
     useEffect(() => {
@@ -226,7 +233,7 @@ function Post() {
                             <Select
                                 placeholder="Quận Huyện"
                                 options={district}
-                                isDisabled={newAddress.city === ""}
+                                isDisabled={newAddress.city === ''}
                                 onChange={(e) => {
                                     setNewAddress({ ...newAddress, district: e.label });
                                     getWard(e.value, setWard);
@@ -238,7 +245,7 @@ function Post() {
                             <Select
                                 placeholder="Phường xã"
                                 options={ward}
-                                isDisabled={newAddress.district === ""}
+                                isDisabled={newAddress.district === ''}
                                 onChange={(e) => {
                                     setNewAddress({ ...newAddress, ward: e.label });
                                 }}
@@ -248,7 +255,7 @@ function Post() {
                             label="Đường"
                             name="street"
                             placeholder="Địa chỉ"
-                            dis={newAddress.ward === ""}
+                            dis={newAddress.ward === ''}
                             init={newAddress}
                             setValue={setNewAddress}
                         />
@@ -261,7 +268,10 @@ function Post() {
                         <ul className="flex justify-center h-full ">
                             <li className="w-3/12 text-center my-auto">
                                 <span
-                                    className={(step === 1 ? "bg-blue " : "bg-text1 ") + "inline-block w-[30px] h-[30px] rounded-full leading-[30px]"}
+                                    className={
+                                        (step === 1 ? 'bg-blue ' : 'bg-text1 ') +
+                                        'inline-block w-[30px] h-[30px] rounded-full leading-[30px]'
+                                    }
                                 >
                                     1
                                 </span>
@@ -269,7 +279,10 @@ function Post() {
                             </li>
                             <li className="w-3/12 text-center my-auto">
                                 <span
-                                    className={(step === 2 ? "bg-blue " : "bg-text1 ") + "inline-block w-[30px] h-[30px] rounded-full leading-[30px]"}
+                                    className={
+                                        (step === 2 ? 'bg-blue ' : 'bg-text1 ') +
+                                        'inline-block w-[30px] h-[30px] rounded-full leading-[30px]'
+                                    }
                                 >
                                     2
                                 </span>
@@ -277,7 +290,10 @@ function Post() {
                             </li>
                             <li className="w-3/12 text-center my-auto">
                                 <span
-                                    className={(step === 3 ? "bg-blue " : "bg-text1 ") + "inline-block w-[30px] h-[30px] rounded-full leading-[30px]"}
+                                    className={
+                                        (step === 3 ? 'bg-blue ' : 'bg-text1 ') +
+                                        'inline-block w-[30px] h-[30px] rounded-full leading-[30px]'
+                                    }
                                 >
                                     3
                                 </span>
@@ -286,7 +302,7 @@ function Post() {
                         </ul>
                     </div>
                     <div className=" my-2">
-                        <div className={step !== 1 ? "hidden" : ""}>
+                        <div className={step !== 1 ? 'hidden' : ''}>
                             <div className="px-5 pt-2 pb-4 bg-w">
                                 <div>Mô Tả Công Việc</div>
                                 <div className="flex justify-center gap-28 mb-3">
@@ -353,11 +369,23 @@ function Post() {
                                                             }}
                                                         />
                                                     </div>
-                                                    <div className="mx-2 ml-4 flex h-6 my-auto text-text1" onClick={handleAddAddress}>
-                                                        <FontAwesomeIcon icon={faPlusSquare} className="w-10/12 h-full" />
+                                                    <div
+                                                        className="mx-2 ml-4 flex h-6 my-auto text-text1"
+                                                        onClick={handleAddAddress}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faPlusSquare}
+                                                            className="w-10/12 h-full"
+                                                        />
                                                     </div>
-                                                    <div className="mx-2 flex h-6 my-auto text-text1" onClick={handleUpdateAddress}>
-                                                        <FontAwesomeIcon icon={faPenToSquare} className="w-10/12 h-full" />
+                                                    <div
+                                                        className="mx-2 flex h-6 my-auto text-text1"
+                                                        onClick={handleUpdateAddress}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faPenToSquare}
+                                                            className="w-10/12 h-full"
+                                                        />
                                                     </div>
                                                     <div
                                                         className="mx-2 flex h-6 my-auto text-text1"
@@ -442,7 +470,7 @@ function Post() {
                                 </div>
                             </div>
                         </div>
-                        <div className={step !== 2 ? "hidden" : ""}>
+                        <div className={step !== 2 ? 'hidden' : ''}>
                             <div className="p-4 bg-w">
                                 <div className="w-full flex flex-wrap border mb-2 py-3 px-2 items-center rounded-md">
                                     <div className="w-9/12 flex flex-col">
@@ -511,7 +539,7 @@ function Post() {
                                 </div>
                             </div>
                         </div>
-                        <div className={step !== 3 ? "hidden" : ""}>
+                        <div className={step !== 3 ? 'hidden' : ''}>
                             <div className=" p-5 bg-w mb-4">
                                 <div className="w-full">
                                     <div className="grid grid-cols mb-2 border-b border-b-text1 pb-2">

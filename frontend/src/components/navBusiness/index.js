@@ -2,14 +2,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import logo from "~/assets/logo.png";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { path } from "~/routes/path";
+import { business as authBusiness } from "~/redux/auth";
+
 function NavBusiness(prop) {
     const { business } = prop;
-    console.log("business: ", business);
+    const [business1, setBusiness1] = useState(business);
+    const navigate = useNavigate()
     const [bar, setBar] = useState("hidden");
     const handleBar = () => {
         bar === "hidden" ? setBar("block") : setBar("hidden");
+    };
+    const handleLogOut = () => {
+        localStorage.removeItem("isCandidate");
+        localStorage.removeItem("refreshTokenCandidate");
+        authBusiness("");
+        setBusiness1(null);
+        navigate("/doanh-nghiep/dang-nhap")
     };
     return (
         <nav className="fixed w-full bg-first z-50">
@@ -43,16 +53,14 @@ function NavBusiness(prop) {
                                 ĐĂNG TIN TUYỂN DỤNG
                             </Link>
                             <div className="px-4 text-center text-text1 relative group  cursor-pointer">
-                                <div className="flex items-center h-full">
-                                    <img src={business?.img} alt="hinh anh" className="object-contain max-h-[60px] max-w-[100px] " />
+                                <div className="min-w-[212px] px-10 flex items-center h-full">
+                                    <img src={business1?.img} alt="hinh anh" className="object-contain max-h-[60px] max-w-[100px] " />
                                 </div>
                                 <div className="absolute left-0 w-full text-left hidden group-hover:block">
-                                    <Link to={`/doanh-nghiep/thong-tin-doanh-nghiep/${business.id}`}>
-                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Thông tin</p>
+                                    <Link to={`/doanh-nghiep/thong-tin-doanh-nghiep/${business1.id}`}>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Thông tin doanh nghiệp</p>
                                     </Link>
-                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Hoạt động</p>
-                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Quản lý CV</p>
-                                    <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w hover:text-[20px]">Đăng xuất</p>
+                                    <p onClick={handleLogOut} className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Đăng xuất</p>
                                 </div>
                             </div>
                         </div>

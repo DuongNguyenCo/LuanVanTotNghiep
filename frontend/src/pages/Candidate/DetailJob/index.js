@@ -6,6 +6,7 @@ import { Button, DCJJobRelate } from "~/components";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAPIJobID } from "~/redux/apiRequests";
 function DetailJob() {
+    const candidate = JSON.parse(localStorage.getItem("isCandidate"));
     const { nameJob } = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState();
@@ -14,7 +15,11 @@ function DetailJob() {
     const [tim, setTim] = useState(true);
 
     const handleApply = () => {
-        window.open(`/ung-tuyen/${nameJob}`, "_blank");
+        if(candidate){
+            window.open(`/ung-tuyen/${nameJob}`, "_blank");
+        }else{
+            navigate("/dang-nhap")
+        }
     };
     const handleInfoBusiness = () => {
         navigate(`/chi-tiet-doanh-nghiep/${data?.business.name}`);

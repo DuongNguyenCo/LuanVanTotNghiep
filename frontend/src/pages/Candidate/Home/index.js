@@ -7,7 +7,7 @@ import "swiper/css/grid";
 import "swiper/css/pagination";
 import { Grid } from "swiper";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { path } from "~/routes/path";
 
 function Home() {

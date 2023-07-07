@@ -1,5 +1,5 @@
-import db from "../models/index";
-import { upload } from "./function";
+import db from '../models/index';
+import { upload } from './function';
 const apply = (infor, file) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -18,10 +18,11 @@ const apply = (infor, file) => {
                     id_candidate: infor.id_candidate,
                     id_cv: cv.dataValues.id,
                     description: infor.description,
+                    status: -1,
                 });
-                resolve({ status: 0, mess: "successful application" });
+                resolve({ status: 0, mess: 'successful application' });
             }
-            resolve({ status: -1, mess: "This post has been applied by the candidate" });
+            resolve({ status: -1, mess: 'This post has been applied by the candidate' });
         } catch (e) {
             reject(e);
         }

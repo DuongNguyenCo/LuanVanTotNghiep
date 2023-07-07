@@ -23,7 +23,6 @@ function Home() {
         { id: 10, name: "Nov", other: 0, success: 0, fail: 0, tuyen: 0 },
         { id: 11, name: "Dec", other: 0, success: 0, fail: 0, tuyen: 0 },
     ]);
-
     const [monthPost, setMonthPost] = useState([
         { id: 0, name: "Jan", dang: 0 },
         { id: 1, name: "Feb", dang: 0 },
@@ -38,6 +37,7 @@ function Home() {
         { id: 10, name: "Nov", dang: 0 },
         { id: 11, name: "Dec", dang: 0 },
     ]);
+  
     useEffect(() => {
         Promise.all([
             getAPIPostBusiness(idBusiness, setPost),

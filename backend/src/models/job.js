@@ -1,19 +1,19 @@
-"use strict";
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class job extends Model {
         static associate(models) {
-            job.hasOne(models.post, { foreignKey: "id_job" });
+            job.hasOne(models.post, { foreignKey: 'id_job' });
             job.belongsToMany(models.address, {
                 through: models.job_address,
-                foreignKey: "id_job",
+                foreignKey: 'id_job',
             });
             job.belongsToMany(models.language, {
                 through: models.job_language,
-                foreignKey: "id_job",
+                foreignKey: 'id_job',
             });
-            job.belongsTo(models.typejob, { foreignKey: "id_job_type" });
+            job.belongsTo(models.typejob, { foreignKey: 'id_job_type' });
         }
     }
     job.init(
@@ -28,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: "job",
-        }
+            modelName: 'job',
+        },
     );
     return job;
 };

@@ -1,19 +1,19 @@
-import db from "../models/index";
+import db from '../models/index';
 
 const getAll = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
             const data = await db.address.findAll({
-                attributes: ["id", "street", "ward", "district", "city"],
+                attributes: ['id', 'street', 'ward', 'district', 'city'],
                 include: [
                     {
                         model: db.business,
-                        attributes: ["id"],
+                        attributes: ['id'],
                         where: { id: id },
                     },
                 ],
             });
-            resolve({ status: 0, mess: "Find All Successfully", data });
+            resolve({ status: 0, mess: 'Find All Successfully', data });
         } catch (e) {
             reject(e);
         }
@@ -22,7 +22,7 @@ const getAll = (id) => {
 
 const newAddress = (address) => {
     return new Promise(async (resolve, reject) => {
-        const a = address.address.street.split(" ");
+        const a = address.address.street.split(' ');
         const b = a.map((e) => {
             return e.replace(e.charAt(0), e.charAt(0).toUpperCase());
         });
@@ -32,12 +32,41 @@ const newAddress = (address) => {
                 city: address.address.city,
                 district: address.address.district,
                 ward: address.address.ward,
-                street: b.join(" "),
+                street: b.join(' '),
             },
         });
-        if (data[1]) resolve({ status: 0, mess: "Create Successfully", data: data[0] });
-        else resolve({ status: -1, mess: "Create Failed" });
+        if (data[1]) resolve({ status: 0, mess: 'Create Successfully' });
+        else resolve({ status: -1, mess: 'Create Failed' });
     });
 };
 
-module.exports = { getAll, newAddress };
+const deleteAddress = (address) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const dlt = await db.address.destroy({
+                where: {
+                    id: address.id,
+                },
+            });
+            if (dlt) {
+                const data = await db.address.findAll({
+                    attributes: ['id', 'street', 'ward', 'district', 'city'],
+                    include: [
+                        {
+                            model: db.business,
+                            attributes: ['id'],
+                            where: { id: address.idBusiness },
+                        },
+                    ],
+                });
+                resolve({ status: 0, mess: 'Delete Successfully', data });
+            } else {
+                resolve({ status: -1, mess: 'Delete Failed' });
+            }
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+module.exports = { getAll, newAddress, deleteAddress };

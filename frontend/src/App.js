@@ -5,7 +5,7 @@ function App() {
   return (
     <Routes>
       {router.map((route, index) => {
-        const Page = route.component;
+        let Page = route.component;
         let Layout = Default;
         if (route.layout) {
           Layout = route.layout;

@@ -12,10 +12,6 @@ function Apply() {
     const [apply, setApply] = useState({ file: null, description: "" });
 
     const handleApply = async () => {
-        console.log(apply.file);
-        console.log(apply.description);
-        console.log(data.id);
-        console.log(candidate.id);
         const fd = new FormData();
         fd.append("file", apply.file);
         fd.append("description", apply.description);

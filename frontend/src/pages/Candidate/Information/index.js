@@ -6,6 +6,7 @@ import { getCandidateByid } from "~/redux/apiRequests";
 function Information() {
     const { id } = useParams();
     const [candidate, setCandidate] = useState({ id: 0, first_name: "", last_name: "", email: "" });
+    const [update, setUpdate] = useState({ type:"Chỉnh sửa", dis:true });
     useEffect(() => {
         getCandidateByid(id, setCandidate);
     }, [id]);
@@ -21,14 +22,14 @@ function Information() {
                 <div className="bg-w px-3 py-3 ">
                     <div className="flex gap-5 mb-2">
                         <div className="flex-1">
-                            <Input label="Họ và tên lót" value={candidate.first_name} setValue={setCandidate} init={candidate} name="first_name" />
+                            <Input dis={update.dis} label="Họ và tên lót" value={candidate.first_name} setValue={setCandidate} init={candidate} name="first_name" />
                         </div>
                         <div className="flex-1">
-                            <Input label="Tên" value={candidate.last_name} setValue={setCandidate} init={candidate} name="last_name" />
+                            <Input dis={update.dis} label="Tên" value={candidate.last_name} setValue={setCandidate} init={candidate} name="last_name" />
                         </div>
                     </div>
                     <div className="mb-2">
-                        <Input label="Email" value={candidate.email} setValue={setCandidate} init={candidate} name="email" />
+                        <Input dis={update.dis} label="Email" value={candidate.email} setValue={setCandidate} init={candidate} name="email" />
                     </div>
                 </div>
 
@@ -36,30 +37,31 @@ function Information() {
                 <div className=" bg-w px-3 py-3 ">
                     <div className="flex gap-5 mb-2">
                         <div className="flex-1">
-                            <Input label="Chức danh" />
+                            <Input dis={update.dis} label="Chức danh" />
                         </div>
                         <div className="flex-1">
-                            <Input label="Nơi làm việc" />
+                            <Input dis={update.dis} label="Nơi làm việc" />
                         </div>
                         <div className="flex-1">
-                            <Input label="Kinh nghiệm" />
+                            <Input dis={update.dis} label="Kinh nghiệm" />
                         </div>
                     </div>
                     <div className="flex gap-5 mb-2 items-center">
                         <div className="flex-1">
-                            <Input type="date" label="Ngày bắt đầu" />
+                            <Input dis={update.dis} type="date" label="Ngày bắt đầu" />
                         </div>
                         <div className="flex-1">
-                            <Input type="date" label="Ngày bắt đầu" />
+                            <Input dis={update.dis} type="date" label="Ngày bắt đầu" />
                         </div>
                         <div className=" h-6 flex items-center gap-2">
-                            <input name="job" type="checkbox" id="job" className="h-4 w-4" />
+                            <input disabled={update.dis} name="job" type="checkbox" id="job" className="h-4 w-4" />
                             <label htmlFor="job">Công việc hiện tại</label>
                         </div>
                     </div>
                     <div className="mb-2">
                         <label>Mô tả </label>
                         <textarea
+                            disabled={update.dis}
                             maxLength="14500"
                             rows="5"
                             placeholder="Mô tả về công việc"
@@ -69,7 +71,13 @@ function Information() {
                     </div>
                 </div>
                 <div className="bg-w pr-3 flex justify-end pb-4">
-                    <Button label="Lưu" className="px-8 h-10" />
+                    <Button onClick={()=>{
+                        if(update.dis){
+                            setUpdate({type:"Lưu", dis:false})
+                        }else{
+                            setUpdate({type:"Chỉnh sửa", dis:true})
+                        }
+                    }} label={update.type} className="px-8 h-10" />
                 </div>
             </div>
         </div>
