@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 // import { LoginBusiness } from "~/redux/businessSlice";
 const instance = axios.create({
-    baseURL: "http://localhost:9000",
+    baseURL: 'https://backendluanvan.onrender.com',
 });
 
 // Add a request interceptor
@@ -21,27 +21,27 @@ instance.interceptors.request.use(
     },
     function (error) {
         return Promise.reject(error);
-    }
+    },
 );
 
 // Add a response interceptor
 instance.interceptors.response.use(
     function (response) {
         if (response.data.status === 0 && response.data.isBusiness === 1) {
-            window.localStorage.setItem("refreshTokenBusiness", response.data.tokenRefresh);
-            window.localStorage.setItem("isBusiness", JSON.stringify(response.data.data));
+            window.localStorage.setItem('refreshTokenBusiness', response.data.tokenRefresh);
+            window.localStorage.setItem('isBusiness', JSON.stringify(response.data.data));
             return response.data;
         }
         if (response.data.status === 0 && response.data.isBusiness === 0) {
-            window.localStorage.setItem("isCandidate", JSON.stringify(response.data.data));
-            window.localStorage.setItem("refreshTokenCandidate", response.data.tokenRefresh);
+            window.localStorage.setItem('isCandidate', JSON.stringify(response.data.data));
+            window.localStorage.setItem('refreshTokenCandidate', response.data.tokenRefresh);
             return response.data;
         }
         return response.data;
     },
     function (error) {
         return Promise.reject(error);
-    }
+    },
 );
 
 export default instance;
