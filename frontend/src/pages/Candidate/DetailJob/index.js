@@ -1,12 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
-import { useEffect, useState } from "react";
-import { Button, DCJJobRelate } from "~/components";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAPIJobID } from "~/redux/apiRequests";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as fullHeart } from '@fortawesome/free-regular-svg-icons';
+import { useEffect, useState } from 'react';
+import { Button, DCJJobRelate } from '~/components';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getAPIJobID } from '~/redux/apiRequests';
 function DetailJob() {
-    const candidate = JSON.parse(localStorage.getItem("isCandidate"));
+    const candidate = JSON.parse(localStorage.getItem('isCandidate'));
     const { nameJob } = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState();
@@ -15,10 +15,10 @@ function DetailJob() {
     const [tim, setTim] = useState(true);
 
     const handleApply = () => {
-        if(candidate){
-            window.open(`/ung-tuyen/${nameJob}`, "_blank");
-        }else{
-            navigate("/dang-nhap")
+        if (candidate) {
+            window.open(`/ung-tuyen/${nameJob}`, '_blank');
+        } else {
+            navigate('/dang-nhap');
         }
     };
     const handleInfoBusiness = () => {
@@ -47,7 +47,7 @@ function DetailJob() {
                                 label={
                                     <FontAwesomeIcon
                                         icon={tim ? fullHeart : solidHeart}
-                                        className={(tim ? "text-text1" : "text-red") + " w-full h-full hover:text-red "}
+                                        className={(tim ? 'text-text1' : 'text-red') + ' w-full h-full hover:text-red '}
                                     />
                                 }
                                 className="bg-w h-full border border-text1 p-0.5 flex"
@@ -69,16 +69,17 @@ function DetailJob() {
                         </div>
                         <div className="text-[rgb(104,186,80)]">
                             {data?.job.salary_min !== 0 && data?.job.salary_max !== 0
-                                ? data?.job.salary_min.toLocaleString("it-IT", { style: "currency", currency: "VND" }) +
-                                  " - " +
-                                  data?.job.salary_max.toLocaleString("it-IT", { style: "currency", currency: "VND" })
+                                ? data?.job.salary_min.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) +
+                                  ' - ' +
+                                  data?.job.salary_max.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })
                                 : data?.job.salary_max === 0 && data?.job.salary_min !== 0
-                                ? data?.job.salary_min.toLocaleString("it-IT", { style: "currency", currency: "VND" }) + " UPTO "
+                                ? data?.job.salary_min.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }) +
+                                  ' UPTO '
                                 : "You'll love it"}
                         </div>
                         <div className="flex flex-col gap-1">
                             {data?.job.addresses.map((e) => {
-                                return <p key={e.id}>{e.street + ", " + e.ward + ", " + e.district + ", " + e.city}</p>;
+                                return <p key={e.id}>{e.street + ', ' + e.ward + ', ' + e.district + ', ' + e.city}</p>;
                             })}
                         </div>
                         <div>
@@ -86,21 +87,27 @@ function DetailJob() {
                         </div>
                     </div>
                     <div>
-                        <div>
+                        <div className="mb-2">
                             <p className="font-bold">MÔ TẢ CÔNG VIỆC</p>
-                            <div>{data?.job.description}</div>
+                            <div className="text-justify" dangerouslySetInnerHTML={{ __html: data?.job.description }} />
                         </div>
-                        <div>
+                        <div className="mb-2">
                             <p className="font-bold">YÊU CẦU CÔNG VIỆC</p>
-                            <div>{data?.job.request}</div>
+                            <div className="text-justify" dangerouslySetInnerHTML={{ __html: data?.job.request }} />
                         </div>
-                        <div>
+                        <div className="mb-2">
                             <p className="font-bold">QUYỀN LỢI KHI VÀO CÔNG TY</p>
-                            <div>{data?.business.benefit}</div>
+                            <div
+                                className="text-justify"
+                                dangerouslySetInnerHTML={{ __html: data?.business.benefit }}
+                            />
                         </div>
-                        <div>
+                        <div className="mb-2">
                             <p className="font-bold">MÔ TẢ VỀ CÔNG TY</p>
-                            <div>{data?.business.description}</div>
+                            <div
+                                className="text-justify"
+                                dangerouslySetInnerHTML={{ __html: data?.business.description }}
+                            />
                         </div>
                     </div>
                 </div>

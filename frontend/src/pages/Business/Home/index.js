@@ -1,43 +1,50 @@
-import { ResponsiveContainer, Legend, BarChart, CartesianGrid, YAxis, XAxis, Tooltip, Bar } from "recharts";
+import { ResponsiveContainer, Legend, BarChart, CartesianGrid, YAxis, XAxis, Tooltip, Bar } from 'recharts';
 
-import { IoEye, IoEyeOff, IoCalendar, IoHourglass } from "react-icons/io5";
-import { useEffect, useState } from "react";
-import { getAPIPostBusiness, getAPIPostExpireBusiness, getAPIPostHiddenBusiness, getApplyByMonth, getPostByMonth } from "~/redux/apiRequests";
+import { IoEye, IoEyeOff, IoCalendar, IoHourglass } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
+import {
+    getAPIPostBusiness,
+    getAPIPostExpireBusiness,
+    getAPIPostHiddenBusiness,
+    getAPIPostSevenDayBusiness,
+    getApplyByMonth,
+    getPostByMonth,
+} from '~/redux/apiRequests';
 function Home() {
-    const idBusiness = JSON.parse(localStorage.getItem("isBusiness"))?.id;
+    const idBusiness = JSON.parse(localStorage.getItem('isBusiness'))?.id;
     const [post, setPost] = useState([]);
     const [hidden, setHidden] = useState([]);
     const [expire, setExpire] = useState([]);
     const [sevenDay, setSevenDay] = useState([]);
     const [monthApply, setMonthApply] = useState([
-        { id: 0, name: "Jan", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 1, name: "Feb", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 2, name: "Mar", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 3, name: "Apr", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 4, name: "May", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 5, name: "Jun", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 6, name: "Jul", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 7, name: "Aug", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 8, name: "Sep", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 9, name: "Oct", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 10, name: "Nov", other: 0, success: 0, fail: 0, tuyen: 0 },
-        { id: 11, name: "Dec", other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 0, name: 'Jan', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 1, name: 'Feb', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 2, name: 'Mar', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 3, name: 'Apr', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 4, name: 'May', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 5, name: 'Jun', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 6, name: 'Jul', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 7, name: 'Aug', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 8, name: 'Sep', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 9, name: 'Oct', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 10, name: 'Nov', other: 0, success: 0, fail: 0, tuyen: 0 },
+        { id: 11, name: 'Dec', other: 0, success: 0, fail: 0, tuyen: 0 },
     ]);
     const [monthPost, setMonthPost] = useState([
-        { id: 0, name: "Jan", dang: 0 },
-        { id: 1, name: "Feb", dang: 0 },
-        { id: 2, name: "Mar", dang: 0 },
-        { id: 3, name: "Apr", dang: 0 },
-        { id: 4, name: "May", dang: 0 },
-        { id: 5, name: "Jun", dang: 0 },
-        { id: 6, name: "Jul", dang: 0 },
-        { id: 7, name: "Aug", dang: 0 },
-        { id: 8, name: "Sep", dang: 0 },
-        { id: 9, name: "Oct", dang: 0 },
-        { id: 10, name: "Nov", dang: 0 },
-        { id: 11, name: "Dec", dang: 0 },
+        { id: 0, name: 'Jan', dang: 0 },
+        { id: 1, name: 'Feb', dang: 0 },
+        { id: 2, name: 'Mar', dang: 0 },
+        { id: 3, name: 'Apr', dang: 0 },
+        { id: 4, name: 'May', dang: 0 },
+        { id: 5, name: 'Jun', dang: 0 },
+        { id: 6, name: 'Jul', dang: 0 },
+        { id: 7, name: 'Aug', dang: 0 },
+        { id: 8, name: 'Sep', dang: 0 },
+        { id: 9, name: 'Oct', dang: 0 },
+        { id: 10, name: 'Nov', dang: 0 },
+        { id: 11, name: 'Dec', dang: 0 },
     ]);
-  
+
     useEffect(() => {
         Promise.all([
             getAPIPostBusiness(idBusiness, setPost),
@@ -54,7 +61,7 @@ function Home() {
 
     useEffect(() => {
         const array =
-            post.length > 0 &&
+            post.length >= 0 &&
             post.map((e) => {
                 const dateExpire = new Date(e.expire);
                 const dateNow = new Date();
@@ -64,11 +71,15 @@ function Home() {
                 }
                 return null;
             });
+        console.log('array: ', array);
         setSevenDay(array !== false && array.filter(Boolean));
     }, [post]);
 
+    console.log('sevenDay.length: ', sevenDay.length);
     function BoxWrapper({ children }) {
-        return <div className="bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center">{children}</div>;
+        return (
+            <div className="bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center">{children}</div>
+        );
     }
     return (
         <div className="max-w-main mx-auto flex flex-col gap-4 py-4">
@@ -121,7 +132,9 @@ function Home() {
             <div className="flex flex-row gap-4 w-full">
                 <div className="min-h-[22rem] w-main rounded-sm border border-gray-200 flex flex-col flex-1">
                     <strong className="bg-w text-gray-700 font-medium text-[25px] py-3 pl-4">Thống kê dữ liệu</strong>
-                    <strong className="bg-w mt-4 text-gray-700 pl-14 pt-3 font-medium text-[20px]">Thống kê đăng tuyển</strong>
+                    <strong className="bg-w mt-4 text-gray-700 pl-14 pt-3 font-medium text-[20px]">
+                        Thống kê đăng tuyển
+                    </strong>
                     <div className="min-h-[22rem] pl-4 py-3 flex-1 text-xs bg-w">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart
@@ -144,7 +157,9 @@ function Home() {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
-                    <strong className="text-gray-700 mt-4 pl-14 pt-3 font-medium text-[20px] bg-w">Thống kê ứng tuyển</strong>
+                    <strong className="text-gray-700 mt-4 pl-14 pt-3 font-medium text-[20px] bg-w">
+                        Thống kê ứng tuyển
+                    </strong>
                     <div className="min-h-[22rem] pl-4 py-3 flex-1 text-xs bg-w">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart

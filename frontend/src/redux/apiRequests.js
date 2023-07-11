@@ -63,8 +63,6 @@ export const signInCandidate = async (data, dispatch, navigate) => {
             url: '/api/v2/candidate/signIn',
             data: data,
         });
-
-        console.log('candidate: ', candidate);
         if (candidate.status === 0) {
             dispatch(loginCandidate(candidate.data));
             dispatch(authCandidate(candidate.tokenAccess));
@@ -243,6 +241,7 @@ export const getAPIPostExpireBusiness = async (id_business, setPost) => {
             method: 'GET',
             url: `/api/v2/post/getAllExpire/${id_business}`,
         });
+        console.log('data: ', data);
         if (data.status === 0) {
             setPost(data.data);
         }
@@ -373,9 +372,12 @@ export const submitStepOne = async (job, id_business, dispatch) => {
             url: '/api/v2/job/create',
             data: { job, id_business },
         });
-        console.log('data: ', data);
-        dispatch(postChooseBusiness(data.data));
-        return data.status;
+        if (data.status === 1) {
+            return data.status;
+        } else {
+            dispatch(postChooseBusiness(data.data));
+            return data.status;
+        }
     } catch (e) {
         return e;
     }
@@ -388,7 +390,7 @@ export const submitStepTwo = async (step, id_post) => {
             url: '/api/v2/post/updateStep',
             data: { step, id_post },
         });
-        return data.status;
+        if (data.status === 0) return data.status;
     } catch (e) {
         return e;
     }
@@ -418,9 +420,7 @@ export const applyPost = async (apply) => {
             url: '/api/v2/cv/apply',
             data: apply,
         });
-        console.log('data: ', data);
-        if (data.status === 0) {
-        }
+        return data.status;
     } catch (e) {
         return e;
     }
@@ -490,7 +490,7 @@ export const hiddenPost = async (id_post, id_business, setPost) => {
     }
 };
 
-export const deletePost = async (id_post, id_business, setPost) => {
+export const deletePost = async (id_post, id_business) => {
     try {
         const data = await axios({
             method: 'DELETE',
@@ -498,7 +498,6 @@ export const deletePost = async (id_post, id_business, setPost) => {
             data: { id_post, id_business },
         });
         if (data.status === 0) {
-            setPost(data.data);
         }
     } catch (e) {
         return e;

@@ -1,24 +1,32 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "~/components";
-import { applyPost, getAPIJobIdApply } from "~/redux/apiRequests";
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { Button } from '~/components';
+import { applyPost, getAPIJobIdApply } from '~/redux/apiRequests';
 
 function Apply() {
     const { nameJobApply } = useParams();
-    const candidate = JSON.parse(localStorage.getItem("isCandidate"));
-    console.log("candidate: ", candidate);
+    const candidate = JSON.parse(localStorage.getItem('isCandidate'));
+    console.log('candidate: ', candidate);
     const navigate = useNavigate();
     const [data, setData] = useState();
-    const [apply, setApply] = useState({ file: null, description: "" });
+    const [apply, setApply] = useState({ file: null, description: '' });
 
     const handleApply = async () => {
         const fd = new FormData();
-        fd.append("file", apply.file);
-        fd.append("description", apply.description);
-        fd.append("id_post", data.id);
-        fd.append("id_candidate", candidate.id);
-        await applyPost(fd);
-        navigate(`/chi-tiet-cong-viec/${nameJobApply}`);
+        fd.append('file', apply.file);
+        fd.append('description', apply.description);
+        fd.append('id_post', data.id);
+        fd.append('id_candidate', candidate.id);
+        const a = await applyPost(fd);
+        console.log('a: ', a);
+        if (a === 0) {
+            toast.success('Ứng tuyển thành công');
+            navigate(`/chi-tiet-cong-viec/${nameJobApply}`);
+        } else {
+            toast.warning('Tin đã được ứng tuyển');
+            navigate(`/chi-tiet-cong-viec/${nameJobApply}`);
+        }
     };
 
     useEffect(() => {
@@ -28,7 +36,7 @@ function Apply() {
     return (
         <div className="bg-second">
             <div className="max-w-main bg-w mt-3 mx-auto px-10 pt-2 pb-4 rounded-md">
-                <div className="text-[24px]">{data && data.job.name + " Tại " + data.business.name}</div>
+                <div className="text-[24px]">{data && data.job.name + ' Tại ' + data.business.name}</div>
                 <div className="flex flex-wrap">
                     <div className="w-full flex mt-2">
                         <div className="flex-1">CV của bạn</div>
@@ -52,7 +60,10 @@ function Apply() {
                         </div>
                     </div>
                     <div className="w-full">
-                        <div className="mt-1">Những kỹ năng, dự án công việc hoặc thành tích nào khiến bạn trở thành một ứng cử viên sáng giá?</div>
+                        <div className="mt-1">
+                            Những kỹ năng, dự án công việc hoặc thành tích nào khiến bạn trở thành một ứng cử viên sáng
+                            giá?
+                        </div>
                         <textarea
                             maxLength="500"
                             rows="3"
@@ -64,7 +75,11 @@ function Apply() {
                         ></textarea>
                         <div className="float-right text-[12px] text-text1">{500}/500 ký tự</div>
                         <div>
-                            <Button label="Nộp CV" className="w-full h-10 mt-2 bg-button text-chu2" onClick={handleApply} />
+                            <Button
+                                label="Nộp CV"
+                                className="w-full h-10 mt-2 bg-button text-chu2"
+                                onClick={handleApply}
+                            />
                         </div>
                     </div>
                 </div>

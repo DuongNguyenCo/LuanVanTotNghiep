@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "../button";
-import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as fullHeart } from "@fortawesome/free-regular-svg-icons";
-import { useState } from "react";
-import Star from "../star";
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from '../button';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as fullHeart } from '@fortawesome/free-regular-svg-icons';
+import { useState } from 'react';
+import Star from '../star';
+import { Link } from 'react-router-dom';
 
 function Busiess(prop) {
     const { nameB, url, description, post } = prop;
@@ -19,7 +19,7 @@ function Busiess(prop) {
                         label={
                             <FontAwesomeIcon
                                 icon={tim ? fullHeart : solidHeart}
-                                className={(tim ? "text-text1" : "text-red") + " w-full h-full hover:text-red"}
+                                className={(tim ? 'text-text1' : 'text-red') + ' w-full h-full hover:text-red'}
                             />
                         }
                         className=" bg-w border border-text1 p-0.5 flex"
@@ -40,15 +40,15 @@ function Busiess(prop) {
                 >
                     <img src={url} alt="123" />
                 </div>
-                <div className="flex-1 flex flex-col mx-3 justify-between">
+                <div className="flex-1 flex flex-col mx-3 justify-between max-w-[75%] w-full ml-3 ">
                     <div className="flex">
                         <div className="flex-1 flex items-center mobile:justify-center">
-                            <Star stars="5" />
+                            <Star stars="100" />
                             <p className="text-2xl mx-2">{5}</p>
                         </div>
                     </div>
-                    <div>{description}</div>
-                    <div className="flex justify-end">{post} công việc</div>
+                    <div className="text-justify line-clamp-4">{description}</div>
+                    <div className="flex justify-end text-link">{post} công việc</div>
                 </div>
             </div>
         </Link>

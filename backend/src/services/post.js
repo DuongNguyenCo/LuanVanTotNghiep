@@ -329,7 +329,6 @@ const updateStep = (post) => {
 const updateService = (post) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('post: ', post);
             const { defaultService, optionService } = post.service;
             await db.post_service.create({
                 id_service: defaultService,
@@ -379,7 +378,6 @@ const updateService = (post) => {
 const updateState = (post) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('post: ', post);
             const data = await db.post.findOne({
                 attributes: ['id', 'status'],
                 where: { id: post.id_post },
@@ -442,33 +440,42 @@ const updateState = (post) => {
 const deletePost = (post) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const data = await db.post.destroy({
+            const a = await db.post.findOne({
+                attributes: ['id_job'],
                 where: {
                     id: post.id_post,
                 },
             });
+            const data = await db.post.destroy({ where: { id: post.id_post }, force: true });
+
             if (data) {
-                const data1 = await db.post.findAll({
-                    attributes: ['id', 'expire', 'status', 'expire'],
-                    include: [
-                        { model: db.business, attributes: ['id', 'email'], where: { id: post.id_business } },
-                        {
-                            model: db.job,
-                            attributes: ['id', 'name'],
-                            include: [
-                                { model: db.language, attributes: ['id', 'name'] },
-                                { model: db.address, attributes: ['id', 'district'] },
-                            ],
-                        },
-                        { model: db.service, attributes: ['id', 'name'] },
-                        { model: db.candidate, attributes: ['id'], as: 'apply' },
-                    ],
-                    where: { [Op.and]: { expire: { [Op.gte]: new Date() }, status: 1 } },
-                });
+                Promise.all([
+                    await db.job_language.destroy({ where: { id_job: a }, force: true }),
+                    await db.job_address.destroy({ where: { id_job: a }, force: true }),
+                    await db.job.destroy({ where: { id: a }, force: true }),
+                ]);
+
+                // const data1 = await db.post.findAll({
+                //     attributes: ['id', 'expire', 'status', 'expire'],
+                //     include: [
+                //         { model: db.business, attributes: ['id', 'email'], where: { id: post.id_business } },
+                //         {
+                //             model: db.job,
+                //             attributes: ['id', 'name'],
+                //             include: [
+                //                 { model: db.language, attributes: ['id', 'name'] },
+                //                 { model: db.address, attributes: ['id', 'district'] },
+                //             ],
+                //         },
+                //         { model: db.service, attributes: ['id', 'name'] },
+                //         { model: db.candidate, attributes: ['id'], as: 'apply' },
+                //     ],
+                //     where: { [Op.and]: { expire: { [Op.gte]: new Date() }, status: 1 } },
+                // });
                 resolve({
                     status: 0,
                     mess: 'Delete Successfully',
-                    data: data1,
+                    // data: data1,
                 });
             }
         } catch (e) {

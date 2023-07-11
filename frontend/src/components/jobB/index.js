@@ -83,11 +83,7 @@ function Job(prop) {
                         </div>
                     )}
 
-                    <div
-                        onClick={() => {
-                            handleDelete(id);
-                        }}
-                    >
+                    <div onClick={() => handleDelete(id)}>
                         <FontAwesomeIcon className="text-text1 text-xs cursor-pointer" icon={faTrashCan} />
                     </div>
                     <div
@@ -95,7 +91,10 @@ function Job(prop) {
                             handleReload();
                         }}
                     >
-                        <FontAwesomeIcon className="text-text1 text-xs cursor-pointer" icon={faRepeat} />
+                        <FontAwesomeIcon
+                            className="text-text1 text-xs cursor-pointer"
+                            icon={status === 4 ? faRepeat : ''}
+                        />
                     </div>
                 </div>
             </div>

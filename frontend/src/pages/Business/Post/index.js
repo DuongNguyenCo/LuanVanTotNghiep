@@ -1,9 +1,12 @@
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { faPenToSquare, faPlusSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import { Button, Input, Modal } from '~/components';
 import {
     getAPITypeJob,
@@ -24,7 +27,6 @@ function Post() {
     //init
     const idBusiness = JSON.parse(localStorage.getItem('isBusiness'))?.id;
     const id_post = useSelector((state) => state.post.postChooseBusiness?.id);
-    console.log('id_post: ', id_post);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -58,6 +60,7 @@ function Post() {
         id_location: [],
         id_language: [],
     });
+    console.log('data: ', data);
     const [dataStep, setDataStep] = useState({
         step1: -1,
         step2: -1,
@@ -92,9 +95,9 @@ function Post() {
         ) {
             const a = await submitStepOne(data, idBusiness, dispatch);
             if (a === 0) setStep(step + 1);
-            else setStep(step + 1);
+            else toast.warning('Tên bài viết đã tồn tại trong hệ thống');
         } else {
-            console.log('chua nhap day du thong tin');
+            toast.warning('Không được để trống thông tin');
         }
     };
     const submitStep2 = async () => {
@@ -105,19 +108,20 @@ function Post() {
             dataStep.step4 !== -1 &&
             dataStep.step5 !== -1
         ) {
-            const a = submitStepTwo(dataStep, id_post);
+            const a = await submitStepTwo(dataStep, id_post);
+            console.log('a: ', a);
             if (a === 0) setStep(step + 1);
-            else setStep(step + 1);
+            else toast.warning('thất bại');
         } else {
-            console.log('chua chon quy trinh');
+            toast.warning('Chưa hoàn chỉnh các bước ứng tuyển');
         }
     };
 
     const submitComplete = async () => {
         if (dataService.defaultService !== 0) {
-            submitStepThree(dataService, id_post, idBusiness, navigate);
+            await submitStepThree(dataService, id_post, idBusiness, navigate);
         } else {
-            console.log('chua chon dich vu');
+            toast.warning('Chọn gói cơ bản để hoàn tất quá trình đăng bài');
         }
     };
     const preStep = () => {
@@ -304,7 +308,7 @@ function Post() {
                     <div className=" my-2">
                         <div className={step !== 1 ? 'hidden' : ''}>
                             <div className="px-5 pt-2 pb-4 bg-w">
-                                <div>Mô Tả Công Việc</div>
+                                <div className="mb-2 text-[24px] text-bold">Mô Tả Công Việc</div>
                                 <div className="flex justify-center gap-28 mb-3">
                                     <div className="flex-1">
                                         <Input
@@ -411,33 +415,46 @@ function Post() {
                                         )}
                                     </div>
                                 </div>
-                                <div>
+                                <div className="mb-2">
                                     <label>Mô Tả</label>
-                                    <textarea
-                                        maxLength="14500"
-                                        rows="5"
-                                        placeholder="Mô tả về công việc"
-                                        className="border w-full p-1 mt-2"
-                                        name="description"
-                                        onChange={(e) => {
-                                            setData({ ...data, [e.target.name]: e.target.value });
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={''}
+                                        onChange={(event, editor) => {
+                                            console.log(editor);
+                                            const a = editor.getData();
+                                            setData({ ...data, description: a });
                                         }}
-                                    ></textarea>
-                                    <div className="flex justify-end text-[12px] text-text1">({14500}/14500 ký tự)</div>
+                                        onReady={(editor) => {
+                                            editor.editing.view.change((writer) => {
+                                                writer.setStyle(
+                                                    'height',
+                                                    '200px',
+                                                    editor.editing.view.document.getRoot(),
+                                                );
+                                            });
+                                        }}
+                                    />
                                 </div>
-                                <div className="">
-                                    <label className="">Yêu cầu</label>
-                                    <textarea
-                                        maxLength="14500"
-                                        rows="5"
-                                        placeholder="Yêu cầu cho công việc"
-                                        className="border w-full p-1 mt-2"
-                                        name="request"
-                                        onChange={(e) => {
-                                            setData({ ...data, [e.target.name]: e.target.value });
+                                <div className=" mb-2 ">
+                                    <label>Yêu cầu</label>
+                                    <CKEditor
+                                        editor={ClassicEditor}
+                                        data={''}
+                                        onChange={(event, editor) => {
+                                            const a = editor.getData();
+                                            setData({ ...data, request: a });
                                         }}
-                                    ></textarea>
-                                    <div className="flex justify-end text-[12px] text-text1">({14500}/14500 ký tự)</div>
+                                        onReady={(editor) => {
+                                            editor.editing.view.change((writer) => {
+                                                writer.setStyle(
+                                                    'height',
+                                                    '200px',
+                                                    editor.editing.view.document.getRoot(),
+                                                );
+                                            });
+                                        }}
+                                    />
                                 </div>
                                 <div className="w-full ">
                                     <p className="mb-1">Mức Lương</p>

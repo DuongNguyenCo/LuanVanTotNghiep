@@ -1,6 +1,7 @@
 import { faSliders } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { Button, Input, JobB } from '~/components';
 import {
     deletePost,
@@ -19,7 +20,27 @@ function Job() {
         await hiddenPost(id, idBusiness, setPost);
     };
     const handleDelete = (id) => {
-        deletePost(id, idBusiness, setPost);
+        Swal.fire({
+            title: 'Bạn muốn xóa dữ liệu',
+            text: 'Dữ liệu sẽ không được hoàn tác trở lại',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xác nhận',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await Swal.fire('Đã xóa', 'Bạn đã xóa thành công', 'success');
+                await deletePost(id, idBusiness);
+            }
+            if (step === 1) {
+                getAPIPostBusiness(idBusiness, setPost);
+            } else if (step === 2) {
+                getAPIPostHiddenBusiness(idBusiness, setPost);
+            } else {
+                getAPIPostExpireBusiness(idBusiness, setPost);
+            }
+        });
     };
     const handleUpdate = () => {
         console.log('cap nhat');
@@ -69,7 +90,7 @@ function Job() {
                     </div>
                 </div>
             </div>
-            <div className="max-w-main mx-auto mb-2 px-2 bg-w py-2">
+            <div className="max-w-main min-h-[440px] mx-auto mb-2 px-2 bg-w py-2">
                 <div className="flex mb-4">
                     <div className="flex justify-between w-full">
                         <div className="w-6/12">
