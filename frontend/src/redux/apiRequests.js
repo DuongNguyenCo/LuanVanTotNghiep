@@ -73,6 +73,65 @@ export const signInCandidate = async (data, dispatch, navigate) => {
     }
 };
 
+export const signUpCandidata = async (data, dispatch, navigate) => {
+    try {
+        const candidate = await axios({
+            method: 'POST',
+            url: '/api/v2/candidate/signUp',
+            data: data,
+        });
+        if (candidate.status === 0) {
+            dispatch(loginCandidate(candidate.data));
+            navigate(path.CHOME);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const forgotPassword = async (data) => {
+    try {
+        const candidate = await axios({
+            method: 'POST',
+            url: '/api/v2/candidate/forgotPassword',
+            data: data,
+        });
+        // if (business.status === 0) {
+        //     return business.data;
+        // }
+    } catch (e) {
+        return e;
+    }
+};
+export const resetPassword = async (data) => {
+    try {
+        const candidate = await axios({
+            method: 'POST',
+            url: '/api/v2/candidate/resetPassword',
+            data: data,
+        });
+        // if (business.status === 0) {
+        //     return business.data;
+        // }
+    } catch (e) {
+        return e;
+    }
+};
+
+export const getJobApply = async (id, setJob) => {
+    try {
+        const candidate = await axios({
+            method: 'GET',
+            url: `/api/v2/candidate/getJobApply/${id}`,
+        });
+        if (candidate.status === 0) {
+            setJob(candidate.data);
+        }
+    } catch (e) {
+        return e;
+    }
+};
+
 export const getAPIPostHot = async (dispatch) => {
     try {
         const dataP = await axios({

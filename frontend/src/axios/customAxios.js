@@ -1,7 +1,8 @@
 import axios from 'axios';
 // import { LoginBusiness } from "~/redux/businessSlice";
 const instance = axios.create({
-    baseURL: 'https://backendluanvan.onrender.com',
+    baseURL: 'http://localhost:9000',
+    // baseURL: 'https://backendluanvan.onrender.com',
 });
 
 // Add a request interceptor

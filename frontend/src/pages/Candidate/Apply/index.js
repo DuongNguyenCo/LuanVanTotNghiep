@@ -7,7 +7,6 @@ import { applyPost, getAPIJobIdApply } from '~/redux/apiRequests';
 function Apply() {
     const { nameJobApply } = useParams();
     const candidate = JSON.parse(localStorage.getItem('isCandidate'));
-    console.log('candidate: ', candidate);
     const navigate = useNavigate();
     const [data, setData] = useState();
     const [apply, setApply] = useState({ file: null, description: '' });

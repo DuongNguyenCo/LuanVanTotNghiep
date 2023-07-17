@@ -1,24 +1,24 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import logo from "~/assets/logo.png";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { path } from "~/routes/path";
-import { candidate as authCandidate } from "~/redux/auth";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import logo from '~/assets/logo.png';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { path } from '~/routes/path';
+import { candidate as authCandidate } from '~/redux/auth';
 
 function Nav(prop) {
-    const business = JSON.parse(localStorage.getItem("isBusiness"))
+    const business = JSON.parse(localStorage.getItem('isBusiness'));
 
     const { candidate } = prop;
     const [candidate1, setCandidate1] = useState(candidate);
-    const [bar, setBar] = useState("hidden");
+    const [bar, setBar] = useState('hidden');
     const handleBar = () => {
-        bar === "hidden" ? setBar("block") : setBar("hidden");
+        bar === 'hidden' ? setBar('block') : setBar('hidden');
     };
     const handleLogOut = () => {
-        localStorage.removeItem("isCandidate");
-        localStorage.removeItem("refreshTokenCandidate");
-        authCandidate("");
+        localStorage.removeItem('isCandidate');
+        localStorage.removeItem('refreshTokenCandidate');
+        authCandidate('');
         setCandidate1(null);
     };
     return (
@@ -46,18 +46,29 @@ function Nav(prop) {
                         </Link>
                         {candidate1 ? (
                             <div className="px-4 text-center text-text1 relative group  cursor-pointer">
-                                <div className="flex min-w-[140px] items-center h-full">{candidate1.first_name + " " + candidate1.last_name}</div>
+                                <div className="flex min-w-[140px] items-center h-full">
+                                    {candidate1.first_name + ' ' + candidate1.last_name}
+                                </div>
                                 <div className="absolute left-0 w-full text-left hidden group-hover:block">
                                     <Link to={`/thong-tin-ca-nhan/${candidate1.id}`}>
-                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Thông tin cá nhận </p>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                            Thông tin cá nhận{' '}
+                                        </p>
                                     </Link>
-                                    <Link to={path.CMYJOB}>
-                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Việc làm của tôi</p>
+                                    <Link to={`/cong-viec-cua-toi/${candidate1.id}`}>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                            Việc làm của tôi
+                                        </p>
                                     </Link>
                                     <Link to={path.CMYCV}>
-                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Quản lý CV</p>
+                                        <p className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                            Quản lý CV
+                                        </p>
                                     </Link>
-                                    <p onClick={handleLogOut} className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                    <p
+                                        onClick={handleLogOut}
+                                        className="h-14 pl-4 text-text1 cursor-pointer bg-first hover:text-w"
+                                    >
                                         Đăng xuất
                                     </p>
                                 </div>
@@ -70,7 +81,11 @@ function Nav(prop) {
                     </div>
                 </div>
                 <div className="hidden w-10 flex justify-center mobile:w-10 mobile:block" onClick={handleBar}>
-                    <FontAwesomeIcon icon={faBars} style={{ color: "#9b9a9a" }} className="block tablet:block right mobile:block right h-8" />
+                    <FontAwesomeIcon
+                        icon={faBars}
+                        style={{ color: '#9b9a9a' }}
+                        className="block tablet:block right mobile:block right h-8"
+                    />
                 </div>
             </div>
             <div className={`hidden w-full flex justify-between flex-wrap bg-first  mobile:${bar} mobile:absolute`}>
@@ -87,19 +102,28 @@ function Nav(prop) {
                     {candidate1 ? (
                         <div className="px-4 py-2 text-center text-text1 relative group cursor-pointer">
                             <div className="flex min-w-[140px] justify-center items-center h-full">
-                                {candidate1.first_name + " " + candidate1.last_name}
+                                {candidate1.first_name + ' ' + candidate1.last_name}
                             </div>
                             <div className="absolute left-0 w-full text-left hidden group-hover:block">
-                                <Link to={path.CINFOR}>
-                                    <p className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Thông tin cá nhận </p>
+                                <Link to={`/thong-tin-ca-nhan/${candidate1.id}`}>
+                                    <p className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                        Thông tin cá nhận
+                                    </p>
                                 </Link>
-                                <Link to={path.CMYJOB}>
-                                    <p className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Việc làm của tôi</p>
+                                <Link to={`/cong-viec-cua-toi/${candidate1.id}`}>
+                                    <p className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                        Việc làm của tôi
+                                    </p>
                                 </Link>
                                 <Link to={path.CMYCV}>
-                                    <p className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">Quản lý CV</p>
+                                    <p className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                        Quản lý CV
+                                    </p>
                                 </Link>
-                                <p onClick={handleLogOut} className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w">
+                                <p
+                                    onClick={handleLogOut}
+                                    className="h-8 pl-4 text-text1 cursor-pointer bg-first hover:text-w"
+                                >
                                     Đăng xuất
                                 </p>
                             </div>
