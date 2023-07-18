@@ -6,7 +6,6 @@ import {
     getAPIPostBusiness,
     getAPIPostExpireBusiness,
     getAPIPostHiddenBusiness,
-    getAPIPostSevenDayBusiness,
     getApplyByMonth,
     getPostByMonth,
 } from '~/redux/apiRequests';

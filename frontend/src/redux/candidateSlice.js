@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const candidateSlice = createSlice({
-    name: "candidate",
+    name: 'candidate',
     initialState: {
         loginCandidate: null,
     },
     reducers: {
         loginCandidate: (state, action) => {
-            state.loginBusiness = action.payload;
+            state.loginCandidate = action.payload;
         },
     },
 });

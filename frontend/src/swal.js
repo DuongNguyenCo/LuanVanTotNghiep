@@ -34,19 +34,3 @@ export const success = (title) => {
     });
 };
 
-export const xacNhan = (fc) => {
-    Swal.fire({
-        title: 'Bạn muốn xóa dữ liệu',
-        text: 'Dữ liệu sẽ không được hoàn tác trở lại',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Xác nhận',
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            await Swal.fire('Đã xóa', 'Bạn đã xóa thành công', 'success');
-            await fc();
-        }
-    });
-};

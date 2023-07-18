@@ -1,5 +1,3 @@
-import logo from '~/assets/logo.png';
-
 function DivMyJobApply(prop) {
     const { name, location, language, salaryMin, salaryMax, dateApply, img } = prop;
     const a = new Date(dateApply);

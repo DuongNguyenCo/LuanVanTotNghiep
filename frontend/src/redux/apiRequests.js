@@ -96,9 +96,9 @@ export const forgotPassword = async (data) => {
             url: '/api/v2/candidate/forgotPassword',
             data: data,
         });
-        // if (business.status === 0) {
-        //     return business.data;
-        // }
+        if (candidate.status === 0) {
+            return 1;
+        }
     } catch (e) {
         return e;
     }
@@ -110,9 +110,9 @@ export const resetPassword = async (data) => {
             url: '/api/v2/candidate/resetPassword',
             data: data,
         });
-        // if (business.status === 0) {
-        //     return business.data;
-        // }
+        if (candidate.status === 0) {
+            return 1;
+        }
     } catch (e) {
         return e;
     }
