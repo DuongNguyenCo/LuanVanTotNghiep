@@ -70,11 +70,8 @@ function Home() {
                 }
                 return null;
             });
-        console.log('array: ', array);
         setSevenDay(array !== false && array.filter(Boolean));
     }, [post]);
-
-    console.log('sevenDay.length: ', sevenDay.length);
     function BoxWrapper({ children }) {
         return (
             <div className="bg-white rounded-sm p-4 flex-1 border border-gray-200 flex items-center">{children}</div>

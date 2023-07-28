@@ -300,7 +300,6 @@ export const getAPIPostExpireBusiness = async (id_business, setPost) => {
             method: 'GET',
             url: `/api/v2/post/getAllExpire/${id_business}`,
         });
-        console.log('data: ', data);
         if (data.status === 0) {
             setPost(data.data);
         }
@@ -613,7 +612,6 @@ export const getApplyByMonth = async (idBusiness, setMonthApply, monthApply) => 
             url: `/api/v2/post/dashboard1/${idBusiness}`,
         });
         if (data.status === 0) {
-            console.log(data.data);
             const copyData = [...monthApply];
             const resultData = data.data.map((e) => {
                 const month = new Date(e.createdAt).getMonth();
@@ -626,7 +624,7 @@ export const getApplyByMonth = async (idBusiness, setMonthApply, monthApply) => 
                 let tSuccess = 0;
                 for (let i = 0; i < resultData.length; i++) {
                     if (resultData[i].month === e.id) {
-                        tTuyen = resultData[i].apply.length;
+                        tTuyen += resultData[i].apply.length;
                         if (resultData[i].apply.length > 0) {
                             for (let y = 0; y < resultData[i].apply.length; y++) {
                                 if (resultData[i].apply[y].cv_post.status === 0) {
